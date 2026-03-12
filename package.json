@@ -3,5 +3,13 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node server.js"
+  },
+  "main": "server.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^5.2.1"
   }
 }
