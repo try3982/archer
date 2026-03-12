@@ -33,7 +33,7 @@ titleBgm.play().then(()=>{
 const FIRE_POOL_SIZE=6;
 const firePool=Array.from({length:FIRE_POOL_SIZE},()=>{
   const a=new Audio('fire4.m4a');
-  a.volume=0.07;
+  a.volume=0.091;
   return a;
 });
 let firePoolIdx=0;
