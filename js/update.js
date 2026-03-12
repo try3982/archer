@@ -328,6 +328,8 @@ function gainXp(g,amt){
     g.xp-=g.xpNext;g.lv++;
     g.xpNext=Math.ceil(80*1.32**(g.lv-1));
     g.lvAtk=1+(g.lv-1)*0.25;               // 공격력: 레벨당 +25%
+    // 레벨업 시 기존 몬스터 속도 증가 (+8%)
+    for(const m of g.monsters){m.spd*=1.08;}
     // 레벨업 시 체력 회복
     g.php=Math.min(g.maxHp,g.php+20);
     updateHpHud(g);
