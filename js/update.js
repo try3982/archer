@@ -124,12 +124,12 @@ function update(g){
 
   // 스폰 압박 = 기본 난이도 + 레벨 보너스 + 아이템 보너스
   // 레벨 1마다 +0.4, 아이템 1개당 +0.8
-  const lvBonus=(g.lv-1)*0.4;
+  const lvBonus=(g.lv-1)*0.8;
   const itemBonus=g.activeItems.length*0.8;
-  const spawnPressure=Math.min(g.difficulty+lvBonus+itemBonus, 12); // 최대 압박 캡
+  const spawnPressure=Math.min(g.difficulty+lvBonus+itemBonus, 20); // 최대 압박 캡 상향
   g.spawnTimer++;
-  const spawnIntv=Math.max(14,Math.floor(90/spawnPressure));
-  if(g.spawnTimer>=spawnIntv){g.spawnTimer=0;if(g.monsters.length<80)spawnMonster(g);}
+  const spawnIntv=Math.max(8,Math.floor(70/spawnPressure));
+  if(g.spawnTimer>=spawnIntv){g.spawnTimer=0;if(g.monsters.length<120)spawnMonster(g);}
 
   // spawn world items
   g.itemSpawnTimer++;

@@ -589,6 +589,12 @@ function drawPlayer(g){
     cx.fillStyle='#ec4899'; // 분홍 깃털
     cx.beginPath();cx.moveTo(strX-1,-1);cx.lineTo(strX-7,-4.5);cx.lineTo(strX-4,-1);cx.lineTo(strX-7,2.5);cx.closePath();cx.fill();
   }
+  // 플레이어 머리 위 HP바
+  const phbW=44,phbH=6,phbX=sx-phbW/2,phbY=sy-CFG_PR-22;
+  cx.fillStyle='rgba(0,0,0,.6)';cx.beginPath();cx.roundRect(phbX,phbY,phbW,phbH,phbH/2);cx.fill();
+  const pHpPct=g.php/g.maxHp;
+  cx.fillStyle=pHpPct>.5?'#4ade80':pHpPct>.25?'#facc15':'#f87171';
+  cx.beginPath();cx.roundRect(phbX,phbY,phbW*pHpPct,phbH,phbH/2);cx.fill();
   cx.restore();
 }
 
@@ -982,8 +988,8 @@ function drawMonster(g,m){
     }
   }
 
-  // HP 바
-  if(m.hp<m.maxHp){
+  // HP 바 (항상 표시)
+  {
     const bw=r*2.3,bh=boss?7:4,bx=-r*1.15,by=-r-(boss?22:15);
     cx.fillStyle='rgba(0,0,0,.55)';cx.beginPath();cx.roundRect(bx,by,bw,bh,bh/2);cx.fill();
     const pct=m.hp/m.maxHp;

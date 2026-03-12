@@ -28,7 +28,8 @@ function spawnMonster(g){
   g.spawnCount=(g.spawnCount||0)+1;
   const type=useSpitter?'spitter':pickMonsterType(el);
   const def=MONSTER_DEF[type];
-  const sM=Math.min(1.2+el*.003, 2.5);  // 속도 최대 2.5배
+  const lvSpdBonus=(g.lv-1)*0.08;
+  const sM=Math.min(1.2+el*.003+lvSpdBonus, 3.0);  // 속도 최대 3배 (레벨 비례)
   const hp=useSpitter?3:Math.min(Math.ceil(def.hp*(1+el*.002)),2);
   const behaviors=['direct','direct','flank','predict'];
   const m={
