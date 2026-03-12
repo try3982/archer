@@ -97,9 +97,9 @@ const ITEM_DEFS={
     // 공격속도 2배 (getShootRate에서 체크)
   },
   laser:{
-    icon:'🔴',label:'레이저',color:'#ef4444',duration:180,
+    icon:'🔴',label:'레이저',color:'#ef4444',duration:90,
     type:'buff',
-    // 3초간 전방위 레이저로 모든 몬스터 1방 사살
+    // 1.5초간 전방위 레이저로 모든 몬스터 1방 사살
   },
 };
 const ITEM_KEYS=Object.keys(ITEM_DEFS);
