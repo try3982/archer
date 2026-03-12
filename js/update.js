@@ -86,6 +86,23 @@ function update(g){
   }
   if(g.shootAnim>0)g.shootAnim--;
 
+  // 레이저: 매 프레임 16방향 레이저로 닿는 몬스터 즉사
+  if(hasItem(g,'laser')){
+    const rays=16, range=600;
+    for(const m of g.monsters){
+      if(m.dead)continue;
+      const mdx=m.wx-g.wx, mdy=m.wy-g.wy;
+      const d2=mdx*mdx+mdy*mdy;
+      if(d2>range*range)continue;
+      for(let i=0;i<rays;i++){
+        const ang=i*(Math.PI*2/rays);
+        const rx=Math.cos(ang), ry=Math.sin(ang);
+        const cross=Math.abs(rx*mdy-ry*mdx);
+        if(cross<m.r){killMonster(g,m);burst(g,m.wx,m.wy,'#ef4444',6);break;}
+      }
+    }
+  }
+
   // active items
   for(const ai of g.activeItems)ai.timer--;
   const expiredKeys=g.activeItems.filter(ai=>ai.timer<=0).map(ai=>ai.key);

@@ -354,6 +354,21 @@ function drawPlayer(g){
     }
     cx.globalAlpha=1;cx.restore();
   }
+  // 레이저 이펙트 — 전방위 빨간 빔
+  if(hasItem(g,'laser')){
+    cx.save();cx.translate(sx,sy);
+    const rays=16, range=600;
+    cx.shadowColor='#ef4444';cx.shadowBlur=18;
+    for(let i=0;i<rays;i++){
+      const ang=i*(Math.PI*2/rays)+g.frame*.015;
+      cx.strokeStyle=`rgba(239,68,68,${0.5+Math.sin(g.frame*.1+i)*.25})`;
+      cx.lineWidth=2.5;cx.lineCap='round';
+      cx.beginPath();cx.moveTo(0,0);
+      cx.lineTo(Math.cos(ang)*range,Math.sin(ang)*range);
+      cx.stroke();
+    }
+    cx.shadowBlur=0;cx.restore();
+  }
   // 대시 이펙트 — 황금 속도선 + 잔상
   if(g.isDashing&&g.isMoving){
     cx.save();cx.translate(sx,sy);
