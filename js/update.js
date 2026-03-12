@@ -1,9 +1,36 @@
 // ══════════════════════════════════════════
+//  DOM CACHE — 매 프레임 getElementById 방지
+// ══════════════════════════════════════════
+const DOM={
+  wb:null,hudWv:null,hudSc:null,
+  dcFill:null,dcTxt:null,dashIcon:null,
+  xpf:null,xpl:null,
+};
+function initDomCache(){
+  DOM.wb=document.getElementById('wb');
+  DOM.hudWv=document.getElementById('hudWv');
+  DOM.hudSc=document.getElementById('hudSc');
+  DOM.dcFill=document.getElementById('dashcdfill');
+  DOM.dcTxt=document.getElementById('dashcdtxt');
+  DOM.dashIcon=document.getElementById('dashicon');
+  DOM.xpf=document.getElementById('xpf');
+  DOM.xpl=document.getElementById('xpl');
+}
+
+// 레이저 방향 사전 계산 (매 프레임 cos/sin 재계산 방지)
+const LASER_RAYS=16;
+const LASER_COS=Array.from({length:LASER_RAYS},(_,i)=>Math.cos(i*(Math.PI*2/LASER_RAYS)));
+const LASER_SIN=Array.from({length:LASER_RAYS},(_,i)=>Math.sin(i*(Math.PI*2/LASER_RAYS)));
+
+// 상태 캐시 (변경 시에만 DOM 업데이트)
+let _lastScore=-1, _lastDashState='', _lastDashCd=-1;
+
+// ══════════════════════════════════════════
 //  BANNER
 // ══════════════════════════════════════════
 let wbTimer=null;
 function showBanner(txt){
-  const el=document.getElementById('wb');
+  const el=DOM.wb||document.getElementById('wb');
   el.textContent=txt;el.classList.add('on');
   clearTimeout(wbTimer);wbTimer=setTimeout(()=>el.classList.remove('on'),2400);
 }
@@ -86,19 +113,15 @@ function update(g){
   }
   if(g.shootAnim>0)g.shootAnim--;
 
-  // 레이저: 매 프레임 16방향 레이저로 닿는 몬스터 즉사
+  // 레이저: 매 프레임 16방향 레이저로 닿는 몬스터 즉사 (cos/sin 사전계산 배열 사용)
   if(hasItem(g,'laser')){
-    const rays=16, range=600;
+    const range2=600*600;
     for(const m of g.monsters){
       if(m.dead)continue;
       const mdx=m.wx-g.wx, mdy=m.wy-g.wy;
-      const d2=mdx*mdx+mdy*mdy;
-      if(d2>range*range)continue;
-      for(let i=0;i<rays;i++){
-        const ang=i*(Math.PI*2/rays);
-        const rx=Math.cos(ang), ry=Math.sin(ang);
-        const cross=Math.abs(rx*mdy-ry*mdx);
-        if(cross<m.r){killMonster(g,m);burst(g,m.wx,m.wy,'#ef4444',6);break;}
+      if(mdx*mdx+mdy*mdy>range2)continue;
+      for(let i=0;i<LASER_RAYS;i++){
+        if(Math.abs(LASER_COS[i]*mdy-LASER_SIN[i]*mdx)<m.r){killMonster(g,m);burst(g,m.wx,m.wy,'#ef4444',6);break;}
       }
     }
   }
@@ -124,21 +147,21 @@ function update(g){
     if(g.dashTimer<=0)g.isDashing=false;
   }
   if(g.dashCd>0)g.dashCd--;
-  // 대시 HUD 업데이트
-  const dcFill=document.getElementById('dashcdfill');
-  const dcTxt=document.getElementById('dashcdtxt');
-  const dashIcon=document.getElementById('dashicon');
-  if(g.isDashing){
-    dcFill.style.width='100%';dcFill.style.background='linear-gradient(90deg,#f59e0b,#fde68a)';
-    dcTxt.textContent='DASH!';dashIcon.style.filter='drop-shadow(0 0 10px #fde68a)';
-  } else if(g.dashCd>0){
-    const pct=(1-g.dashCd/300)*100;
-    dcFill.style.width=pct+'%';dcFill.style.background='linear-gradient(90deg,#7c3aed,#a78bfa)';
-    const sec=Math.ceil(g.dashCd/60);
-    dcTxt.textContent=sec+'s';dashIcon.style.filter='drop-shadow(0 0 4px #6d28d9)';
-  } else {
-    dcFill.style.width='100%';dcFill.style.background='linear-gradient(90deg,#7c3aed,#a78bfa)';
-    dcTxt.textContent='준비';dashIcon.style.filter='drop-shadow(0 0 8px #a78bfa)';
+  // 대시 HUD 업데이트 (상태 변경 시에만 DOM 갱신)
+  const curDashState=g.isDashing?'dash':g.dashCd>0?'cd':'ready';
+  const curDashCd=g.dashCd;
+  if(curDashState!==_lastDashState||curDashCd!==_lastDashCd){
+    _lastDashState=curDashState;_lastDashCd=curDashCd;
+    if(g.isDashing){
+      DOM.dcFill.style.width='100%';DOM.dcFill.style.background='linear-gradient(90deg,#f59e0b,#fde68a)';
+      DOM.dcTxt.textContent='DASH!';DOM.dashIcon.style.filter='drop-shadow(0 0 10px #fde68a)';
+    } else if(g.dashCd>0){
+      DOM.dcFill.style.width=((1-g.dashCd/300)*100)+'%';DOM.dcFill.style.background='linear-gradient(90deg,#7c3aed,#a78bfa)';
+      DOM.dcTxt.textContent=Math.ceil(g.dashCd/60)+'s';DOM.dashIcon.style.filter='drop-shadow(0 0 4px #6d28d9)';
+    } else {
+      DOM.dcFill.style.width='100%';DOM.dcFill.style.background='linear-gradient(90deg,#7c3aed,#a78bfa)';
+      DOM.dcTxt.textContent='준비';DOM.dashIcon.style.filter='drop-shadow(0 0 8px #a78bfa)';
+    }
   }
 
   // 스폰 압박 = 기본 난이도 + 레벨 보너스 + 아이템 보너스
@@ -312,7 +335,7 @@ function update(g){
     }
   }
   g.mProjectiles=g.mProjectiles.filter(p=>!p.dead&&p.life>0);
-  document.getElementById('hudSc').textContent='⭐ '+g.score;
+  if(g.score!==_lastScore){_lastScore=g.score;DOM.hudSc.textContent='⭐ '+g.score;}
   for(const s of g.stars){s.a+=s.da;if(s.a<.04)s.da=Math.abs(s.da);if(s.a>.95)s.da=-Math.abs(s.da);}
 }
 
@@ -353,8 +376,8 @@ function gainXp(g,amt){
     showLvUp(g.lv);
   }
   const pct=Math.min(g.xp/g.xpNext*100,100);
-  document.getElementById('xpf').style.width=pct+'%';
-  document.getElementById('xpl').textContent='Lv.'+g.lv+'  ·  '+g.xp+' / '+g.xpNext+' XP';
+  DOM.xpf.style.width=pct+'%';
+  DOM.xpl.textContent='Lv.'+g.lv+'  ·  '+g.xp+' / '+g.xpNext+' XP';
 }
 
 let lvT=null;
@@ -393,10 +416,19 @@ function updateHpHud(g){
   lbl.style.color=pct>60?'#86efac':pct>30?'#fde68a':'#fca5a5';
 }
 
+// 아이템바 DOM 캐시 (초기화 후 세팅)
+const ITEM_DOM={ic:[],ib:[],sl:[]};
+function initItemDomCache(){
+  for(let i=0;i<3;i++){
+    ITEM_DOM.ic[i]=document.getElementById('ii'+i);
+    ITEM_DOM.ib[i]=document.getElementById('ib'+i);
+    ITEM_DOM.sl[i]=document.getElementById('is'+i);
+  }
+}
 function updateItemBar(g){
   for(let i=0;i<3;i++){
     const ai=g.activeItems[i];
-    const ic=document.getElementById('ii'+i),ib=document.getElementById('ib'+i),sl=document.getElementById('is'+i);
+    const ic=ITEM_DOM.ic[i],ib=ITEM_DOM.ib[i],sl=ITEM_DOM.sl[i];
     if(ai){
       const def=ITEM_DEFS[ai.key];
       ic.textContent=def.icon;ib.style.width=(ai.timer/ai.maxTimer*100)+'%';ib.style.background=def.color;

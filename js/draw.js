@@ -32,22 +32,25 @@ function drawAll(g){
   // ── 별 3레이어 ──
   cx.save();
   const PARALLAX=[0.04,0.22,0.48];
+  const sw=W+200,sh=H+200;
   for(const s of g.stars){
     const pl=PARALLAX[s.layer];
-    const rawX=(s.wx - g.camX*pl);
-    const rawY=(s.wy - g.camY*pl);
-    // 화면 wrap
-    const sw=W+200,sh=H+200;
-    const sx2=((rawX%sw)+sw)%sw - 100;
-    const sy2=((rawY%sh)+sh)%sh - 100;
-    cx.globalAlpha=s.a*(s.layer===0?.55:s.layer===1?.75:1);
+    const sx2=((( s.wx-g.camX*pl)%sw)+sw)%sw-100;
+    const sy2=(((s.wy-g.camY*pl)%sh)+sh)%sh-100;
+    const alpha=s.a*(s.layer===0?.55:s.layer===1?.75:1);
+    cx.globalAlpha=alpha;
     cx.fillStyle=s.col;
-    cx.beginPath();cx.arc(sx2,sy2,s.r,0,Math.PI*2);cx.fill();
-    // 밝은 별에 십자 빛망울
-    if(s.layer===2&&s.r>2.5){
-      cx.globalAlpha=s.a*.25;cx.strokeStyle=s.col;cx.lineWidth=.8;
-      cx.beginPath();cx.moveTo(sx2-s.r*3,sy2);cx.lineTo(sx2+s.r*3,sy2);cx.stroke();
-      cx.beginPath();cx.moveTo(sx2,sy2-s.r*3);cx.lineTo(sx2,sy2+s.r*3);cx.stroke();
+    if(s.r<=1){
+      // 작은 별: fillRect가 arc보다 빠름
+      cx.fillRect(sx2-s.r,sy2-s.r,s.r*2,s.r*2);
+    } else {
+      cx.beginPath();cx.arc(sx2,sy2,s.r,0,Math.PI*2);cx.fill();
+      // 밝은 별에 십자 빛망울
+      if(s.layer===2&&s.r>2.5){
+        cx.globalAlpha=alpha*.25;cx.strokeStyle=s.col;cx.lineWidth=.8;
+        cx.beginPath();cx.moveTo(sx2-s.r*3,sy2);cx.lineTo(sx2+s.r*3,sy2);
+        cx.moveTo(sx2,sy2-s.r*3);cx.lineTo(sx2,sy2+s.r*3);cx.stroke();
+      }
     }
   }
   cx.globalAlpha=1;cx.restore();
@@ -91,8 +94,10 @@ function drawAll(g){
   cx.strokeStyle='rgba(100,80,180,.055)';cx.lineWidth=.8;
   const gStep=120;
   const gOffX=(-g.camX)%gStep, gOffY=(-g.camY)%gStep;
-  for(let x=gOffX;x<W;x+=gStep){cx.beginPath();cx.moveTo(x,0);cx.lineTo(x,H);cx.stroke();}
-  for(let y=gOffY;y<H;y+=gStep){cx.beginPath();cx.moveTo(0,y);cx.lineTo(W,y);cx.stroke();}
+  cx.beginPath();
+  for(let x=gOffX;x<W;x+=gStep){cx.moveTo(x,0);cx.lineTo(x,H);}
+  for(let y=gOffY;y<H;y+=gStep){cx.moveTo(0,y);cx.lineTo(W,y);}
+  cx.stroke();
   cx.restore();
 
   // ── World items ──

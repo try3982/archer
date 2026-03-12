@@ -18,7 +18,8 @@ function resumeGame(){
   isPaused=false;
   document.getElementById('sPause').classList.add('off');
   resumeGameBgm();
-  loop();
+  _lastTime=performance.now();
+  raf=requestAnimationFrame(loop);
 }
 function updatePauseMuteBtn(){
   document.getElementById('btnPauseMute').textContent=isMuted?'🔇 소리 꺼짐':'🔊 소리 켜짐';
@@ -45,9 +46,15 @@ document.getElementById('btnPauseMute').onclick=()=>{
   updatePauseMuteBtn();
 };
 
-function loop(){
+let _lastTime=0;
+function loop(ts){
   if(!G||G.mode!=='playing')return;
-  update(G);drawAll(G);
+  // delta 기반 프레임 스킵: 16ms(60fps) 기준, 너무 느리면 스킵
+  const dt=ts-_lastTime;
+  _lastTime=ts;
+  if(dt<100){ // 탭 숨김 등 극단적 상황 제외
+    update(G);drawAll(G);
+  }
   raf=requestAnimationFrame(loop);
 }
 
@@ -58,6 +65,7 @@ function startGame(){
   titleBgm.pause();titleBgm.currentTime=0;
   document.getElementById('sTitle').classList.add('off');
   document.getElementById('sOver').classList.add('off');
+  initDomCache();initItemDomCache();
   G=mkState();mx=W/2;my=H/2;
   G.wx=WORLD_W/2;G.wy=WORLD_H/2;
   G.camX=WORLD_W/2-W/2;G.camY=WORLD_H/2-H/2;
@@ -73,7 +81,8 @@ function startGame(){
   setTimeout(()=>badge.style.opacity='0',2500);
   if(raf)cancelAnimationFrame(raf);
   startGameBgm();
-  loop();
+  _lastTime=performance.now();
+  raf=requestAnimationFrame(loop);
 }
 
 function endGame(g){
