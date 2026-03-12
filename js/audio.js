@@ -48,7 +48,7 @@ function playFireSound(){
 // ── 인게임 BGM ──
 const gameBgm=new Audio('bgm.mp3');
 gameBgm.loop=true;
-gameBgm.volume=0.25;
+gameBgm.volume=0.2;
 function startGameBgm(){
   if(isMuted)return;
   gameBgm.currentTime=0;
@@ -63,7 +63,7 @@ function resumeGameBgm(){if(!isMuted)gameBgm.play().catch(()=>{});}
 
 // ── 몬스터 사망 효과음 ──
 const dieSounds=[new Audio('die1.m4a'),new Audio('die2.m4a')];
-dieSounds.forEach(a=>a.volume=0.5);
+dieSounds.forEach(a=>a.volume=0.3);
 function playDieSound(){
   if(isMuted)return;
   const snd=dieSounds[Math.random()<.5?0:1];
