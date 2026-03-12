@@ -32,7 +32,7 @@ titleBgm.play().then(()=>{
 // ── 공격 효과음 (겹쳐 재생되도록 풀 방식) ──
 const FIRE_POOL_SIZE=6;
 const firePool=Array.from({length:FIRE_POOL_SIZE},()=>{
-  const a=new Audio('fire3.mp3');
+  const a=new Audio('fire4.m4a');
   a.volume=0.07;
   return a;
 });
