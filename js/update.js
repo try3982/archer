@@ -183,66 +183,80 @@ function update(g){
     if(m.slow>0)m.slow--;
     const mdx=g.wx-m.wx,mdy=g.wy-m.wy,md=Math.sqrt(mdx*mdx+mdy*mdy)||1;
     const perp={x:-mdy/md,y:mdx/md},wob=Math.sin(m.wob)*(m.boss?.5:.28);
-    // 원거리 몬스터: 사정거리 안이면 제자리, 밖이면 접근
+    // 원거리 몬스터 (spitter): 사정거리 안이면 사격
     if(m.ranged&&md<m.shootRange*.85){
-      // 사정거리 안 - 이동 안 함 (약간 옆으로만)
       m.wx+=perp.x*wob*spdMul;
       m.wy+=perp.y*wob*spdMul;
-      // 독침 발사 쿨다운
       if(m.mShootCd>0){m.mShootCd--;}
       else{
-        // 독침 발사
         const ang=Math.atan2(mdy,mdx);
         g.mProjectiles=g.mProjectiles||[];
         g.mProjectiles.push({
-          wx:m.wx+Math.cos(ang)*m.r,
-          wy:m.wy+Math.sin(ang)*m.r,
-          vx:Math.cos(ang)*3.8,
-          vy:Math.sin(ang)*3.8,
+          wx:m.wx+Math.cos(ang)*m.r,wy:m.wy+Math.sin(ang)*m.r,
+          vx:Math.cos(ang)*3.8,vy:Math.sin(ang)*3.8,
           ang,life:120,dead:false,
           dmg:Math.ceil(8*Math.min(g.difficulty,5)),
         });
         m.mShootCd=m.mShootInterval;
-        // 발사 이펙트
         burst(g,m.wx,m.wy,'#84cc16',4);
       }
     } else {
-      let tx=g.wx,ty=g.wy;
-      if(m.behavior==='predict'){
-        // 플레이어 이동 방향 예측 (0.5초 앞)
-        const predDist=Math.min(md,m.spd*30);
-        tx=g.wx+Math.cos(g.moveDir||0)*predDist;
-        ty=g.wy+Math.sin(g.moveDir||0)*predDist;
-      } else if(m.behavior==='flank'){
-        // 측면 포인트를 중간 목표로 삼아 접근
-        const flankAng=Math.atan2(mdy,mdx)+m.flankSign*(Math.PI/3)*(md>200?1:.3);
-        tx=g.wx+Math.cos(flankAng)*60;
-        ty=g.wy+Math.sin(flankAng)*60;
-      }
-      const tdx=tx-m.wx,tdy=ty-m.wy,td=Math.sqrt(tdx*tdx+tdy*tdy)||1;
-      m.wx+=((tdx/td)*m.spd+perp.x*wob)*spdMul;
-      m.wy+=((tdy/td)*m.spd+perp.y*wob)*spdMul;
-    }
-    if(md<CFG_PR+m.r*.75&&g.piframe===0){
-      const dmgTbl={ghoul:5,wraith:4,vampire:8,crawler:6,revenant:12,golem:18,lich:15};
-      const dmg=Math.ceil((dmgTbl[m.type]||6)*Math.min(g.difficulty,5));
-      if(g.shieldHp>0){
-        // 보호막이 피해 흡수
-        g.shieldHp--;
-        g.piframe=40;
-        burst(g,g.wx,g.wy,'#e2e8f0',18);
-        g.popups.push({wx:g.wx,wy:g.wy-30,txt:'SHIELD!',life:1,col:'#e2e8f0',big:true});
-        if(g.shieldHp<=0){
-          // 보호막 소멸 — 아이템 제거
-          g.activeItems=g.activeItems.filter(i=>i.key!=='shield');
-          updateItemBar(g);
+      // ── 근접 공격 사이클: chase → windup → lunge → recover ──
+      const atkRange=CFG_PR+m.r+20;
+      if(m.atkPhase==='chase'){
+        // 접근
+        let tx=g.wx,ty=g.wy;
+        if(m.behavior==='predict'){
+          const predDist=Math.min(md,m.spd*30);
+          tx=g.wx+Math.cos(g.moveDir||0)*predDist;
+          ty=g.wy+Math.sin(g.moveDir||0)*predDist;
+        } else if(m.behavior==='flank'){
+          const flankAng=Math.atan2(mdy,mdx)+m.flankSign*(Math.PI/3)*(md>200?1:.3);
+          tx=g.wx+Math.cos(flankAng)*60;
+          ty=g.wy+Math.sin(flankAng)*60;
         }
-      } else {
-        g.php=Math.max(0,g.php-dmg);
-        g.piframe=75;
-        burst(g,g.wx,g.wy,'#f87171',14);
-        g.popups.push({wx:g.wx,wy:g.wy-30,txt:'-'+dmg,life:1,col:'#f87171',big:true});
-        updateHpHud(g);if(g.php<=0){endGame(g);return;}
+        const tdx=tx-m.wx,tdy=ty-m.wy,td=Math.sqrt(tdx*tdx+tdy*tdy)||1;
+        m.wx+=((tdx/td)*m.spd+perp.x*wob)*spdMul;
+        m.wy+=((tdy/td)*m.spd+perp.y*wob)*spdMul;
+        // 공격 범위 진입 시 windup 시작
+        if(md<atkRange){m.atkPhase='windup';m.atkTimer=22;}
+      } else if(m.atkPhase==='windup'){
+        // 예비동작: 약간 뒤로 빠짐
+        m.wx-=(mdx/md)*m.spd*0.5*spdMul;
+        m.wy-=(mdy/md)*m.spd*0.5*spdMul;
+        m.atkTimer--;
+        if(m.atkTimer<=0){
+          // 돌진 목표를 플레이어 현재 위치로 고정
+          m.atkTargetX=g.wx;m.atkTargetY=g.wy;
+          m.atkPhase='lunge';m.atkTimer=12;
+        }
+      } else if(m.atkPhase==='lunge'){
+        // 돌진
+        const ldx=m.atkTargetX-m.wx,ldy=m.atkTargetY-m.wy,ld=Math.sqrt(ldx*ldx+ldy*ldy)||1;
+        m.wx+=ldx/ld*m.spd*3.5*spdMul;
+        m.wy+=ldy/ld*m.spd*3.5*spdMul;
+        m.atkTimer--;
+        // 히트 판정
+        if(md<CFG_PR+m.r*.8&&g.piframe===0){
+          const dmgTbl={ghoul:5,wraith:4,vampire:8,crawler:6,revenant:12,golem:18,lich:15,spitter:10};
+          const dmg=Math.ceil((dmgTbl[m.type]||6)*Math.min(g.difficulty,5));
+          if(g.shieldHp>0){
+            g.shieldHp--;g.piframe=40;
+            burst(g,g.wx,g.wy,'#e2e8f0',18);
+            g.popups.push({wx:g.wx,wy:g.wy-30,txt:'SHIELD!',life:1,col:'#e2e8f0',big:true});
+            if(g.shieldHp<=0){g.activeItems=g.activeItems.filter(i=>i.key!=='shield');updateItemBar(g);}
+          } else {
+            g.php=Math.max(0,g.php-dmg);g.piframe=75;
+            burst(g,g.wx,g.wy,'#f87171',14);
+            g.popups.push({wx:g.wx,wy:g.wy-30,txt:'-'+dmg,life:1,col:'#f87171',big:true});
+            updateHpHud(g);if(g.php<=0){endGame(g);return;}
+          }
+          m.atkPhase='recover';m.atkTimer=40;
+        } else if(m.atkTimer<=0){m.atkPhase='recover';m.atkTimer=40;}
+      } else if(m.atkPhase==='recover'){
+        // 공격 후 딜레이
+        m.atkTimer--;
+        if(m.atkTimer<=0)m.atkPhase='chase';
       }
     }
   }

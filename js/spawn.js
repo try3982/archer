@@ -39,6 +39,7 @@ function spawnMonster(g){
     anim:Math.random()*100,wob:Math.random()*Math.PI*2,dead:false,
     behavior:behaviors[Math.floor(Math.random()*behaviors.length)],
     flankSign:Math.random()<.5?1:-1,
+    atkPhase:'chase', atkTimer:0, atkTargetX:0, atkTargetY:0,
   };
   // 원거리 몬스터 전용 상태
   if(def.ranged){
