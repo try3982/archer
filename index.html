@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>🏹 Arrow Knight — World</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<div class="scr" id="sTitle">
+  <button id="btnMute" title="뮤트">🔊</button>
+  <span style="font-size:clamp(44px,7vw,76px);filter:drop-shadow(0 0 18px #f59e0b)">🏹</span>
+  <div class="logo">Arrow Knight</div>
+  <div class="tag">World Survival</div>
+  <button class="btn" id="btnS">▶ 시작하기</button>
+  <div class="how"><b>마우스</b>로 캐릭터 이동 · 가까운 적 <b>자동 공격</b><br/>맵을 돌아다니며 <b>아이템</b>을 수집하세요<br/>날씨가 바뀌는 어두운 세계를 <b>버텨내세요!</b></div>
+  <footer class="title-footer">
+    기능 추가 · 개선 문의는 편하게 연락 주세요 😊<br/>
+    <a href="mailto:try3982@kakao.com">try3982@kakao.com</a>
+  </footer>
+</div>
+<div class="scr off" id="sOver">
+  <div style="font-size:56px;margin-bottom:10px">💀</div>
+  <div class="got">Game Over</div>
+  <div class="gos"><span id="goW">00:00</span> 동안 생존</div>
+  <div class="gosc">⭐ <span id="goSc">0</span></div>
+  <div class="go-stats">
+    <div class="go-stat highlight"><div class="go-stat-label">총 처치</div><div class="go-stat-val" id="goKills">0</div></div>
+    <div class="go-stat highlight"><div class="go-stat-label">최고 콤보</div><div class="go-stat-val" id="goCombo">0</div></div>
+    <div class="go-stat"><div class="go-stat-label">레벨</div><div class="go-stat-val" id="goLv">1</div></div>
+    <div class="go-stat"><div class="go-stat-label">인기 아이템</div><div class="go-stat-val" id="goItem">—</div></div>
+  </div>
+  <div class="gobst" id="goBst"></div>
+  <button class="btn" id="btnR">🔄 다시 하기</button>
+</div>
+<canvas id="c"></canvas>
+<div id="hud">
+  <div class="hhp">
+    <span class="hplabel" id="hudHpNum">100 / 100</span>
+    <div class="hpbar-wrap"><div class="hpbar-fill" id="hudHpBar" style="width:100%"></div></div>
+  </div>
+  <div class="hwave" id="hudWv">00:00</div>
+  <div class="hscore" id="hudSc">⭐ 0</div>
+</div>
+<div id="weatherbadge"></div>
+<div id="wb"></div>
+<div id="itembar">
+  <div class="islot" id="is0"><span id="ii0">—</span><div class="ibar" id="ib0" style="width:0%"></div></div>
+  <div class="islot" id="is1"><span id="ii1">—</span><div class="ibar" id="ib1" style="width:0%"></div></div>
+  <div class="islot" id="is2"><span id="ii2">—</span><div class="ibar" id="ib2" style="width:0%"></div></div>
+</div>
+<div id="dashui"><span id="dashicon">⚡</span><div id="dashcdbar"><div id="dashcdfill"></div></div><span id="dashcdtxt"></span></div>
+<div id="xpw"><div class="xpl" id="xpl">Lv.1</div><div class="xpt"><div class="xpf" id="xpf" style="width:0%"></div></div></div>
+<div id="pf"></div><div id="luf"></div><div id="lut"></div>
+<div id="sPause" class="scr off">
+  <div class="pause-icon">⏸</div>
+  <div class="logo" style="font-size:clamp(32px,5vw,56px)">일시정지</div>
+  <div class="pause-hint">ESC 키로 재개</div>
+  <button class="btn" id="btnPauseMute">🔊 소리 켜짐</button>
+  <button class="btn" id="btnPauseHome" style="margin-top:12px;background:linear-gradient(135deg,#374151,#6b7280)">🏠 홈으로 가기</button>
+</div>
+<audio id="titleBgm" loop src="start.mp3"></audio>
+<script src="js/canvas.js"></script>
+<script src="js/config.js"></script>
+<script src="js/state.js"></script>
+<script src="js/particles.js"></script>
+<script src="js/weather.js"></script>
+<script src="js/spawn.js"></script>
+<script src="js/update.js"></script>
+<script src="js/draw.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

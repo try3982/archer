@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(which ffmpeg:*)",
+      "Bash(gh auth:*)",
+      "Bash(git -C /Users/bwj/Desktop/archer remote -v && git -C /Users/bwj/Desktop/archer log --oneline -5)"
+    ]
+  }
+}
