@@ -33,7 +33,7 @@ document.addEventListener('keydown',e=>{
   }
   if(e.code==='Space'&&G&&G.mode==='playing'&&!isPaused){
     e.preventDefault();
-    if(G.dashCd<=0&&!G.isDashing){G.isDashing=true;G.dashTimer=18;G.dashCd=300;playDashSound();}
+    if(G.dashCd<=0&&!G.isDashing){G.isDashing=true;G.dashTimer=36;G.dashCd=300;playDashSound();}
   }
 });
 
