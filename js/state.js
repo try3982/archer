@@ -59,7 +59,7 @@ function mkState(){
     });
   }
   // weather particles pool
-  const wParticles=Array.from({length:600},()=>mkWParticle());
+  const wParticles=Array.from({length:300},()=>mkWParticle());
 
   return{
     mode:'playing',score:0,frame:0,
