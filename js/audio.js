@@ -2,7 +2,7 @@
 //  AUDIO
 // ══════════════════════════════════════════
 const titleBgm=document.getElementById('titleBgm');
-const TITLE_BGM_MAX=0.3;
+const TITLE_BGM_MAX=0.15;
 titleBgm.volume=0;
 
 function fadeInTitleBgm(){
