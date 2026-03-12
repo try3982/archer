@@ -453,9 +453,9 @@ function drawPlayer(g){
 
   // 긴 포니테일 3가닥 — 이동 반대방향으로 흔들
   const strands=[
-    {ox:erX*4,oy:erY*4,  len:22, w:5, col:'#be185d'},
-    {ox:0,    oy:0,       len:26, w:6, col:'#9d174d'},
-    {ox:-erX*4,oy:-erY*4,len:20, w:4, col:'#be185d'},
+    {ox:erX*4,oy:erY*4,  len:22, w:5, col:'#1a1a1a'},
+    {ox:0,    oy:0,       len:26, w:6, col:'#0d0d0d'},
+    {ox:-erX*4,oy:-erY*4,len:20, w:4, col:'#1a1a1a'},
   ];
   strands.forEach(s=>{
     const sx2=hx+s.ox, sy2=hy+s.oy;
@@ -464,13 +464,13 @@ function drawPlayer(g){
     cx.beginPath();cx.moveTo(sx2,sy2);
     cx.quadraticCurveTo(ctrl1x,ctrl1y,endx,endy);
     cx.strokeStyle=s.col;cx.lineWidth=s.w;cx.lineCap='round';cx.stroke();
-    // 끝단 밝은 분홍
-    cx.beginPath();cx.arc(endx,endy,s.w*.4,0,Math.PI*2);cx.fillStyle='#f9a8d4';cx.fill();
+    // 끝단 어두운 회색
+    cx.beginPath();cx.arc(endx,endy,s.w*.4,0,Math.PI*2);cx.fillStyle='#3a3a3a';cx.fill();
   });
 
   // ━━━ 머리 ━━━
   // 뒷머리 볼륨 (원)
-  cx.beginPath();cx.arc(hx,hy,12,0,Math.PI*2);cx.fillStyle='#9d174d';cx.fill();
+  cx.beginPath();cx.arc(hx,hy,12,0,Math.PI*2);cx.fillStyle='#111111';cx.fill();
 
   // 얼굴 (조금 더 앞쪽, 살구색)
   const fx=hx+efX*2, fy=hy+efY*2;
@@ -526,12 +526,12 @@ function drawPlayer(g){
   cx.fillStyle='#e8a878';
   cx.beginPath();cx.arc(fx+efX*7.5,fy+efY*7.5, 1.2,0,Math.PI*2);cx.fill();
 
-  // 앞머리 (얼굴 위를 덮는 분홍 머리)
-  cx.fillStyle='#be185d';
+  // 앞머리 (얼굴 위를 덮는 검은 머리)
+  cx.fillStyle='#111111';
   cx.beginPath();
   cx.arc(hx,hy,10.5,facing-Math.PI*.1,facing+Math.PI*.95);cx.fill();
-  // 앞머리 안쪽 밝은 부분
-  cx.fillStyle='#ec4899';
+  // 앞머리 안쪽 밝은 부분 (어두운 회색 하이라이트)
+  cx.fillStyle='#2a2a2a';
   cx.beginPath();cx.arc(hx+efX*3,hy+efY*3,6.5,facing+Math.PI*.1,facing+Math.PI*.8);cx.fill();
 
   // 머리핀 (별 모양 작게)
