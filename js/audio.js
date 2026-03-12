@@ -61,6 +61,16 @@ function stopGameBgm(){
 function pauseGameBgm(){gameBgm.pause();}
 function resumeGameBgm(){if(!isMuted)gameBgm.play().catch(()=>{});}
 
+// ── 몬스터 사망 효과음 ──
+const dieSounds=[new Audio('die1.m4a'),new Audio('die2.m4a')];
+dieSounds.forEach(a=>a.volume=0.5);
+function playDieSound(){
+  if(isMuted)return;
+  const snd=dieSounds[Math.random()<.5?0:1];
+  snd.currentTime=0;
+  snd.play().catch(()=>{});
+}
+
 // ── 대시 효과음 ──
 const dashSnd=new Audio('slie.mp3');
 dashSnd.volume=1.0;

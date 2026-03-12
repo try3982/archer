@@ -272,6 +272,7 @@ function killMonster(g,m){
   const pts=Math.ceil(def.xp*g.difficulty);
   g.score+=pts;gainXp(g,def.xp);
   deathBurst(g,m.wx,m.wy,m.type);
+  playDieSound();
   g.popups.push({wx:m.wx,wy:m.wy-m.r,txt:'+'+pts,life:1,col:'#fde68a'});
 }
 
