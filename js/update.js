@@ -156,7 +156,7 @@ function update(g){
     if(a.dead)continue;
     for(const m of g.monsters){
       if(m.dead)continue;
-      if((a.wx-m.wx)**2+(a.wy-m.wy)**2<(m.r*.85)**2){
+      if((a.wx-m.wx)**2+(a.wy-m.wy)**2<(m.r)**2){
         const item=a.item;
         if(!a.pierce||(a.pierce&&a.hits>0))a.dead=true;
         a.hits++;
