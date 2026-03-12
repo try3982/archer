@@ -82,7 +82,7 @@ function playDashSound(){
 
 // ── 아이템 획득 효과음 ──
 const itemSnd=new Audio('item.wav');
-itemSnd.volume=0.5;
+itemSnd.volume=0.25;
 function playItemSound(){
   if(isMuted)return;
   itemSnd.currentTime=0;
