@@ -65,7 +65,17 @@ function update(g){
   // auto shoot
   if(g.shootCd>0)g.shootCd--;
   if(g.shootCd<=0&&nearM){
-    fireArrow(g,g.pface);
+    const lv=g.lv||1;const sp=0.28;
+    if(lv>=10){
+      fireArrow(g,g.pface-sp*1.5);fireArrow(g,g.pface-sp*.5);
+      fireArrow(g,g.pface+sp*.5);fireArrow(g,g.pface+sp*1.5);
+    } else if(lv>=7){
+      fireArrow(g,g.pface-sp);fireArrow(g,g.pface);fireArrow(g,g.pface+sp);
+    } else if(lv>=3){
+      fireArrow(g,g.pface-sp*.5);fireArrow(g,g.pface+sp*.5);
+    } else {
+      fireArrow(g,g.pface);
+    }
     if(hasItem(g,'multi')){fireArrow(g,g.pface-.38);fireArrow(g,g.pface+.38);}
     playFireSound();
     g.shootCd=getShootRate(g);
