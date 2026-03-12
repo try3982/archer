@@ -48,7 +48,7 @@ function playFireSound(){
 // ── 인게임 BGM ──
 const gameBgm=new Audio('bgm.mp3');
 gameBgm.loop=true;
-gameBgm.volume=0.18;
+gameBgm.volume=0.144;
 function startGameBgm(){
   if(isMuted)return;
   gameBgm.currentTime=0;
