@@ -32,11 +32,14 @@ function spawnMonster(g){
   const def=MONSTER_DEF[type];
   const hM=1+el*.002, sM=Math.min(1.2+el*.003, 2.5);  // 속도 최대 2.5배
   const hp=Math.ceil(def.hp*hM);
+  const behaviors=['direct','direct','flank','predict'];
   const m={
     wx,wy,type,boss:false,
     r:def.r,hp,maxHp:hp,
     spd:def.spd*sM,slow:0,
     anim:Math.random()*100,wob:Math.random()*Math.PI*2,dead:false,
+    behavior:behaviors[Math.floor(Math.random()*behaviors.length)],
+    flankSign:Math.random()<.5?1:-1,
   };
   // 원거리 몬스터 전용 상태
   if(def.ranged){

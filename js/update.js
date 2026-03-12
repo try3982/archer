@@ -207,8 +207,21 @@ function update(g){
         burst(g,m.wx,m.wy,'#84cc16',4);
       }
     } else {
-      m.wx+=((mdx/md)*m.spd+perp.x*wob)*spdMul;
-      m.wy+=((mdy/md)*m.spd+perp.y*wob)*spdMul;
+      let tx=g.wx,ty=g.wy;
+      if(m.behavior==='predict'){
+        // 플레이어 이동 방향 예측 (0.5초 앞)
+        const predDist=Math.min(md,m.spd*30);
+        tx=g.wx+Math.cos(g.moveDir||0)*predDist;
+        ty=g.wy+Math.sin(g.moveDir||0)*predDist;
+      } else if(m.behavior==='flank'){
+        // 측면 포인트를 중간 목표로 삼아 접근
+        const flankAng=Math.atan2(mdy,mdx)+m.flankSign*(Math.PI/3)*(md>200?1:.3);
+        tx=g.wx+Math.cos(flankAng)*60;
+        ty=g.wy+Math.sin(flankAng)*60;
+      }
+      const tdx=tx-m.wx,tdy=ty-m.wy,td=Math.sqrt(tdx*tdx+tdy*tdy)||1;
+      m.wx+=((tdx/td)*m.spd+perp.x*wob)*spdMul;
+      m.wy+=((tdy/td)*m.spd+perp.y*wob)*spdMul;
     }
     if(md<CFG_PR+m.r*.75&&g.piframe===0){
       const dmgTbl={ghoul:5,wraith:4,vampire:8,crawler:6,revenant:12,golem:18,lich:15};
