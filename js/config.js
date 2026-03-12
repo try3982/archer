@@ -121,14 +121,14 @@ const MONSTER_POOL={
 };
 
 const MONSTER_DEF={
-  ghoul:   {r:18,hp:1, spd:1.15,xp:10,col:'#4a7c59',col2:'#1f3d2a'},
-  wraith:  {r:16,hp:1, spd:1.9, xp:14,col:'#6b5b95',col2:'#2d1f4a'},
-  vampire: {r:20,hp:2, spd:1.0, xp:22,col:'#8b1a1a',col2:'#4a0a0a'},
-  crawler: {r:14,hp:1, spd:2.2, xp:18,col:'#5a3e1b',col2:'#2d1f0e'},
-  revenant:{r:22,hp:2, spd:.85, xp:36,col:'#1a1a3e',col2:'#080820'},
-  golem:   {r:28,hp:3, spd:.6,  xp:60,col:'#3a3a3a',col2:'#1a1a1a'},
-  lich:    {r:24,hp:4, spd:.7,  xp:80,col:'#2a0a4a',col2:'#180530'},
+  ghoul:   {r:24,hp:1, spd:1.15,xp:10,col:'#4ade80',col2:'#166534'},
+  wraith:  {r:22,hp:1, spd:1.9, xp:14,col:'#c084fc',col2:'#6b21a8'},
+  vampire: {r:26,hp:2, spd:1.0, xp:22,col:'#f87171',col2:'#991b1b'},
+  crawler: {r:22,hp:1, spd:2.2, xp:18,col:'#fb923c',col2:'#9a3412'},
+  revenant:{r:28,hp:2, spd:.85, xp:36,col:'#22d3ee',col2:'#155e75'},
+  golem:   {r:34,hp:3, spd:.6,  xp:60,col:'#cbd5e1',col2:'#475569'},
+  lich:    {r:30,hp:4, spd:.7,  xp:80,col:'#e879f9',col2:'#86198f'},
   // 원거리: 독침 뱉는 스피터
-  spitter: {r:17,hp:4, spd:.55, xp:20,col:'#3d6b1a',col2:'#1a3a08',
+  spitter: {r:24,hp:4, spd:.55, xp:20,col:'#a3e635',col2:'#3f6212',
             ranged:true, shootRange:320, shootCd:0, shootInterval:110},
 };
