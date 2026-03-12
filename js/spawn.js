@@ -2,11 +2,9 @@
 //  SPAWNING
 // ══════════════════════════════════════════
 function edgeSpawnW(g){
-  const pad=60,side=Math.random()*4|0;
-  if(side===0)return{wx:g.camX-pad+Math.random()*W,wy:g.camY-pad};
-  if(side===1)return{wx:g.camX+W+pad,wy:g.camY+Math.random()*H};
-  if(side===2)return{wx:g.camX-pad+Math.random()*W,wy:g.camY+H+pad};
-  return{wx:g.camX-pad,wy:g.camY+Math.random()*H};
+  const ang=Math.random()*Math.PI*2;
+  const dist=320+Math.random()*160; // 플레이어 기준 320~480px
+  return{wx:g.wx+Math.cos(ang)*dist, wy:g.wy+Math.sin(ang)*dist};
 }
 
 // spitter 스폰: 8마리당 1마리 체크는 spawnMonster에서 처리
