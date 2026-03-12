@@ -129,7 +129,7 @@ function update(g){
   const spawnPressure=Math.min(g.difficulty+lvBonus+itemBonus, 12); // 최대 압박 캡
   g.spawnTimer++;
   const spawnIntv=Math.max(14,Math.floor(90/spawnPressure));
-  if(g.spawnTimer>=spawnIntv){g.spawnTimer=0;spawnMonster(g);}
+  if(g.spawnTimer>=spawnIntv){g.spawnTimer=0;if(g.monsters.length<80)spawnMonster(g);}
 
   // spawn world items
   g.itemSpawnTimer++;
