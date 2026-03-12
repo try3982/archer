@@ -168,7 +168,8 @@ function update(g){
           }
         }
         const arrowDmg=Math.ceil(1*(g.lvAtk||1));
-        m.hp-=arrowDmg;if(m.hp<=0)killMonster(g,m);
+        m.hp-=arrowDmg;m.hitFlash=10;
+        if(m.hp<=0)killMonster(g,m);
         if(a.pierce&&a.hits>=3)a.dead=true;
         if(!a.pierce)break;
       }
@@ -314,6 +315,9 @@ function killMonster(g,m){
   deathBurst(g,m.wx,m.wy,m.type);
   playDieSound();
   g.popups.push({wx:m.wx,wy:m.wy-m.r,txt:'+'+pts,life:1,col:'#fde68a'});
+  // 레벨 비례 즉시 재생성: 레벨 5 이상부터 확률 증가
+  const respawnChance=Math.min(0.1+(g.lv-1)*0.08,0.8);
+  if(Math.random()<respawnChance&&g.monsters.length<120)spawnMonster(g);
 }
 
 function gainXp(g,amt){

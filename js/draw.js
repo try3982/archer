@@ -988,6 +988,15 @@ function drawMonster(g,m){
     }
   }
 
+  // 피격 플래시
+  if(m.hitFlash>0){
+    m.hitFlash--;
+    cx.globalAlpha=m.hitFlash/10*0.7;
+    cx.fillStyle='#ffffff';
+    cx.beginPath();cx.ellipse(0,0,r,r*1.1,0,0,Math.PI*2);cx.fill();
+    cx.globalAlpha=1;
+  }
+
   // HP 바 (항상 표시)
   {
     const bw=r*2.3,bh=boss?7:4,bx=-r*1.15,by=-r-(boss?22:15);
