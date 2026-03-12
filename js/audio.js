@@ -98,3 +98,17 @@ btnMute.onclick=()=>{
   titleBgm.muted=isMuted;
   btnMute.textContent=isMuted?'🔇':'🔊';
 };
+
+// ── 볼륨 슬라이더 ──
+document.getElementById('slBgm').oninput=function(){
+  gameBgm.volume=this.value/100;
+};
+document.getElementById('slFire').oninput=function(){
+  firePool.forEach(a=>a.volume=this.value/100);
+};
+document.getElementById('slDie').oninput=function(){
+  dieSounds.forEach(a=>a.volume=this.value/100);
+};
+document.getElementById('slItem').oninput=function(){
+  itemSnd.volume=this.value/100;
+};

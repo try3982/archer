@@ -57,6 +57,16 @@
   <div class="pause-icon">⏸</div>
   <div class="logo" style="font-size:clamp(32px,5vw,56px)">일시정지</div>
   <div class="pause-hint">ESC 키로 재개</div>
+  <div style="margin:18px 0;width:min(340px,90vw);text-align:left">
+    <div style="margin-bottom:10px;font-size:15px;color:#a78bfa;font-weight:700">🎵 BGM 볼륨</div>
+    <input type="range" id="slBgm" min="0" max="100" value="14" style="width:100%;accent-color:#a78bfa">
+    <div style="margin:14px 0 10px;font-size:15px;color:#a78bfa;font-weight:700">🔫 공격 효과음</div>
+    <input type="range" id="slFire" min="0" max="100" value="9" style="width:100%;accent-color:#f87171">
+    <div style="margin:14px 0 10px;font-size:15px;color:#a78bfa;font-weight:700">💀 사망 효과음</div>
+    <input type="range" id="slDie" min="0" max="100" value="30" style="width:100%;accent-color:#4ade80">
+    <div style="margin:14px 0 10px;font-size:15px;color:#a78bfa;font-weight:700">✨ 아이템 효과음</div>
+    <input type="range" id="slItem" min="0" max="100" value="25" style="width:100%;accent-color:#fbbf24">
+  </div>
   <button class="btn" id="btnPauseMute">🔊 소리 켜짐</button>
   <button class="btn" id="btnPauseHome" style="margin-top:12px;background:linear-gradient(135deg,#374151,#6b7280)">🏠 홈으로 가기</button>
 </div>
