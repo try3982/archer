@@ -109,7 +109,7 @@ function resetWParticle(p,type,wind){
   p.y=-10;
   p.type=type;
   if(type==='rain'){p.size=1.2+Math.random()*.8;p.vx=wind+(-1+Math.random()*2);p.vy=12+Math.random()*6;}
-  else if(type==='snow'){p.size=2+Math.random()*3;p.vx=wind+(-0.5+Math.random());p.vy=1.2+Math.random()*1.5;}
-  else if(type==='hail'){p.size=2.5+Math.random()*2.5;p.vx=wind+(-2+Math.random()*4);p.vy=9+Math.random()*5;}
+  else if(type==='snow'){p.size=2+Math.random()*3;p.vx=wind+(-0.5+Math.random());p.vy=0.6+Math.random()*.75;}
+  else if(type==='hail'){p.size=2.5+Math.random()*2.5;p.vx=wind+(-2+Math.random()*4);p.vy=4.5+Math.random()*2.5;}
   p.life=1;
 }
