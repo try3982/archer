@@ -88,6 +88,8 @@ function update(g){
 
   // active items
   for(const ai of g.activeItems)ai.timer--;
+  const expiredKeys=g.activeItems.filter(ai=>ai.timer<=0).map(ai=>ai.key);
+  if(expiredKeys.includes('shield'))g.shieldHp=0;
   g.activeItems=g.activeItems.filter(ai=>ai.timer>0);
   updateItemBar(g);
 
@@ -220,7 +222,7 @@ function update(g){
         m.wx+=((tdx/td)*m.spd+perp.x*wob)*spdMul;
         m.wy+=((tdy/td)*m.spd+perp.y*wob)*spdMul;
         // 공격 범위 진입 시 windup 시작
-        if(md<atkRange){m.atkPhase='windup';m.atkTimer=22;}
+        if(md<atkRange){m.atkPhase='windup';m.atkTimer=12;}
       } else if(m.atkPhase==='windup'){
         // 예비동작: 약간 뒤로 빠짐
         m.wx-=(mdx/md)*m.spd*0.5*spdMul;
@@ -247,12 +249,12 @@ function update(g){
             g.popups.push({wx:g.wx,wy:g.wy-30,txt:'SHIELD!',life:1,col:'#e2e8f0',big:true});
             if(g.shieldHp<=0){g.activeItems=g.activeItems.filter(i=>i.key!=='shield');updateItemBar(g);}
           } else {
-            g.php=Math.max(0,g.php-dmg);g.piframe=75;
+            g.php=Math.max(0,g.php-dmg);g.piframe=25;
             burst(g,g.wx,g.wy,'#f87171',14);
             g.popups.push({wx:g.wx,wy:g.wy-30,txt:'-'+dmg,life:1,col:'#f87171',big:true});
             updateHpHud(g);if(g.php<=0){endGame(g);return;}
           }
-          m.atkPhase='recover';m.atkTimer=40;
+          m.atkPhase='recover';m.atkTimer=25;
         } else if(m.atkTimer<=0){m.atkPhase='recover';m.atkTimer=40;}
       } else if(m.atkPhase==='recover'){
         // 공격 후 딜레이
