@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const url = require('url');
 
 const PORT = process.env.PORT || 3000;
 
@@ -18,7 +19,15 @@ const MIME = {
 };
 
 http.createServer((req, res) => {
-  let filePath = path.join(__dirname, req.url === '/' ? 'index.html' : req.url);
+  const pathname = url.parse(req.url).pathname;
+  const filePath = path.join(__dirname, pathname === '/' ? 'index.html' : pathname);
+
+  // 디렉토리 탈출 방지
+  if (!filePath.startsWith(__dirname)) {
+    res.writeHead(403);
+    res.end('Forbidden');
+    return;
+  }
 
   fs.readFile(filePath, (err, data) => {
     if (err) {
