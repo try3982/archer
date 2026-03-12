@@ -29,8 +29,8 @@ function update(g){
   if(dl>8){
     const spdBonus=hasItem(g,'speed')?1.6:1;
     const dashMult=g.isDashing?3.0:1;
-    const baseSpd=5.2*spdBonus*dashMult;
-    const spd=Math.min(Math.min(baseSpd,g.isDashing?18:9)*(dl>120?1:.6),dl);
+    const baseSpd=7.8*spdBonus*dashMult;
+    const spd=Math.min(Math.min(baseSpd,g.isDashing?18:13.5)*(dl>120?1:.6),dl);
     g.wx+=dx/dl*spd;g.wy+=dy/dl*spd;
     // 무한 맵: 경계 없음
     const mdx=g.wx-prevX,mdy=g.wy-prevY;
@@ -270,7 +270,7 @@ function update(g){
 }
 
 function fireArrow(g,ang){
-  const spd=12+(g.lv-1)*1.2;  // 레벨당 화살 속도 +1.2
+  const spd=12.5+(g.lv-1)*1.2;  // 레벨당 화살 속도 +1.2
   // buff 아이템(speed/shield/atkspeed)은 화살에 영향 없음 — projectile 타입만 사용
   const firstItem=g.activeItems.length?g.activeItems[0]:null;
   const key=(firstItem&&ITEM_DEFS[firstItem.key].type==='projectile')?firstItem.key:null;
