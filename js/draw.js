@@ -354,20 +354,36 @@ function drawPlayer(g){
     }
     cx.globalAlpha=1;cx.restore();
   }
-  // 레이저 이펙트 — 전방위 빨간 빔
+  // 레이저 이펙트 — 회전하는 전방위 빨간 빔
   if(hasItem(g,'laser')){
     cx.save();cx.translate(sx,sy);
     const rays=16, range=600;
-    cx.shadowColor='#ef4444';cx.shadowBlur=18;
+    const rot1=g.frame*.07;   // 정방향 빠른 회전
+    const rot2=-g.frame*.045; // 역방향 느린 회전
+    // 외곽 글로우 레이어
+    cx.shadowColor='#ef4444';cx.shadowBlur=28;
+    cx.globalAlpha=0.25;
     for(let i=0;i<rays;i++){
-      const ang=i*(Math.PI*2/rays)+g.frame*.015;
-      cx.strokeStyle=`rgba(239,68,68,${0.5+Math.sin(g.frame*.1+i)*.25})`;
-      cx.lineWidth=2.5;cx.lineCap='round';
-      cx.beginPath();cx.moveTo(0,0);
-      cx.lineTo(Math.cos(ang)*range,Math.sin(ang)*range);
-      cx.stroke();
+      const ang=i*(Math.PI*2/rays)+rot1;
+      cx.strokeStyle='#ff4444';cx.lineWidth=6;cx.lineCap='round';
+      cx.beginPath();cx.moveTo(0,0);cx.lineTo(Math.cos(ang)*range,Math.sin(ang)*range);cx.stroke();
     }
-    cx.shadowBlur=0;cx.restore();
+    // 역방향 보조 레이어
+    cx.globalAlpha=0.18;
+    for(let i=0;i<rays;i++){
+      const ang=i*(Math.PI*2/rays)+rot2+Math.PI/rays;
+      cx.strokeStyle='#ff8888';cx.lineWidth=4;
+      cx.beginPath();cx.moveTo(0,0);cx.lineTo(Math.cos(ang)*range,Math.sin(ang)*range);cx.stroke();
+    }
+    // 선명한 중심 레이어
+    cx.globalAlpha=1;cx.shadowBlur=12;
+    for(let i=0;i<rays;i++){
+      const ang=i*(Math.PI*2/rays)+rot1;
+      const alpha=0.7+Math.sin(g.frame*.18+i)*.3;
+      cx.strokeStyle=`rgba(255,80,80,${alpha})`;cx.lineWidth=2;cx.lineCap='round';
+      cx.beginPath();cx.moveTo(0,0);cx.lineTo(Math.cos(ang)*range,Math.sin(ang)*range);cx.stroke();
+    }
+    cx.shadowBlur=0;cx.globalAlpha=1;cx.restore();
   }
   // 대시 이펙트 — 황금 속도선 + 잔상
   if(g.isDashing&&g.isMoving){
