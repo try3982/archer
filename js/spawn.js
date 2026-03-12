@@ -23,15 +23,13 @@ function pickMonsterType(elapsed){
 function spawnMonster(g){
   const{wx,wy}=edgeSpawnW(g);
   const el=g.elapsed;
-  // 보스
-  if(el>=120&&g.frame%7200<spawnIntv&&Math.random()<.03){spawnBoss(g,wx,wy);return;}
-  // 8마리당 1마리 spitter (el>=20초 이후부터)
-  const useSpitter=(g.spawnCount%8===7);
+  // 10마리당 1마리 보스(spitter)
+  const useSpitter=(g.spawnCount%10===9);
   g.spawnCount=(g.spawnCount||0)+1;
   const type=useSpitter?'spitter':pickMonsterType(el);
   const def=MONSTER_DEF[type];
-  const hM=1+el*.002, sM=Math.min(1.2+el*.003, 2.5);  // 속도 최대 2.5배
-  const hp=Math.ceil(def.hp*hM);
+  const sM=Math.min(1.2+el*.003, 2.5);  // 속도 최대 2.5배
+  const hp=useSpitter?3:Math.min(Math.ceil(def.hp*(1+el*.002)),2);
   const behaviors=['direct','direct','flank','predict'];
   const m={
     wx,wy,type,boss:false,

@@ -123,12 +123,12 @@ const MONSTER_POOL={
 const MONSTER_DEF={
   ghoul:   {r:24,hp:1, spd:1.15,xp:10,col:'#4ade80',col2:'#166534'},
   wraith:  {r:22,hp:1, spd:1.9, xp:14,col:'#c084fc',col2:'#6b21a8'},
-  vampire: {r:26,hp:2, spd:1.0, xp:22,col:'#f87171',col2:'#991b1b'},
+  vampire: {r:26,hp:1, spd:1.0, xp:22,col:'#f87171',col2:'#991b1b'},
   crawler: {r:22,hp:1, spd:2.2, xp:18,col:'#fb923c',col2:'#9a3412'},
-  revenant:{r:28,hp:2, spd:.85, xp:36,col:'#22d3ee',col2:'#155e75'},
-  golem:   {r:34,hp:3, spd:.6,  xp:60,col:'#cbd5e1',col2:'#475569'},
-  lich:    {r:30,hp:4, spd:.7,  xp:80,col:'#e879f9',col2:'#86198f'},
-  // 원거리: 독침 뱉는 스피터
-  spitter: {r:24,hp:4, spd:.55, xp:20,col:'#a3e635',col2:'#3f6212',
+  revenant:{r:28,hp:1, spd:.85, xp:36,col:'#22d3ee',col2:'#155e75'},
+  golem:   {r:34,hp:2, spd:.6,  xp:60,col:'#cbd5e1',col2:'#475569'},
+  lich:    {r:30,hp:2, spd:.7,  xp:80,col:'#e879f9',col2:'#86198f'},
+  // 보스: 독침 뱉는 스피터 (10마리당 1마리)
+  spitter: {r:28,hp:3, spd:.7,  xp:50,col:'#a3e635',col2:'#3f6212',
             ranged:true, shootRange:320, shootCd:0, shootInterval:110},
 };
