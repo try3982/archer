@@ -67,8 +67,11 @@ function update(g){
   if(g.shootCd<=0&&nearM){
     const lv=g.lv||1;const sp=0.28;
     if(lv>=10){
-      fireArrow(g,g.pface-sp*1.5);fireArrow(g,g.pface-sp*.5);
-      fireArrow(g,g.pface+sp*.5);fireArrow(g,g.pface+sp*1.5);
+      fireArrow(g,g.pface-sp*2.5);fireArrow(g,g.pface-sp*1.5);fireArrow(g,g.pface-sp*.5);
+      fireArrow(g,g.pface+sp*.5);fireArrow(g,g.pface+sp*1.5);fireArrow(g,g.pface+sp*2.5);
+    } else if(lv>=9){
+      fireArrow(g,g.pface-sp*2);fireArrow(g,g.pface-sp);fireArrow(g,g.pface);
+      fireArrow(g,g.pface+sp);fireArrow(g,g.pface+sp*2);
     } else if(lv>=7){
       fireArrow(g,g.pface-sp);fireArrow(g,g.pface);fireArrow(g,g.pface+sp);
     } else if(lv>=3){
