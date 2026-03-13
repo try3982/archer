@@ -7,6 +7,10 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store');
+  next();
+});
 app.use(express.static(__dirname));
 
 app.listen(PORT, '0.0.0.0', () => {
