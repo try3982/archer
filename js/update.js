@@ -223,10 +223,16 @@ function update(g){
   // monsters
   for(const m of g.monsters){
     if(m.dead)continue;
+    // 화면 밖 너무 먼 몬스터 자동 제거 (플레이어 기준 1100px 초과)
+    const offDx=m.wx-g.wx, offDy=m.wy-g.wy;
+    if(offDx*offDx+offDy*offDy > 1100*1100){m.dead=true;continue;}
     m.anim++;m.wob+=.06;
     const spdMul=m.slow>0?.32:1;
     if(m.slow>0)m.slow--;
     const mdx=g.wx-m.wx,mdy=g.wy-m.wy,md=Math.sqrt(mdx*mdx+mdy*mdy)||1;
+    // 화면 밖 몬스터: AI 생략하고 직진만
+    const onScreen=m.wx>g.camX-100&&m.wx<g.camX+W+100&&m.wy>g.camY-100&&m.wy<g.camY+H+100;
+    if(!onScreen){m.wx+=mdx/md*m.spd*spdMul;m.wy+=mdy/md*m.spd*spdMul;continue;}
     const perp={x:-mdy/md,y:mdx/md},wob=Math.sin(m.wob)*(m.boss?.5:.28);
     // 원거리 몬스터 (spitter): 사정거리 안이면 사격
     if(m.ranged&&md<m.shootRange*.85){
