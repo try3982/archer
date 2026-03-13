@@ -23,7 +23,7 @@ const WEATHER_DUR=1800; // frames per weather phase
 // ══════════════════════════════════════════
 const ITEM_DEFS={
   // ── 기존 투사체 변환 아이템 ──
-  slow:{icon:'❄️',label:'슬로우',color:'#38bdf8',duration:900,
+  slow:{icon:'❄️',label:'슬로우',color:'#38bdf8',duration:900,desc:'적 이동속도 -70%',
     type:'projectile',
     projectile:{draw(a){
       cx.save();cx.translate(a.wx,a.wy);cx.rotate(a.ang);
@@ -35,7 +35,7 @@ const ITEM_DEFS={
       [[-4,-2],[-6,2],[4,-3]].forEach(([ox,oy])=>{cx.beginPath();cx.arc(ox,oy,1.2,0,Math.PI*2);cx.fill();});
       cx.restore();
     }}},
-  multi:{icon:'🏹',label:'멀티샷',color:'#fbbf24',duration:750,
+  multi:{icon:'🏹',label:'멀티샷',color:'#fbbf24',duration:750,desc:'화살 3발 추가!',
     type:'projectile',
     projectile:{draw(a){
       cx.save();cx.translate(a.wx,a.wy);cx.rotate(a.ang);
@@ -46,7 +46,7 @@ const ITEM_DEFS={
       cx.globalAlpha=.3;cx.strokeStyle='#fde68a';cx.lineWidth=3;cx.beginPath();cx.moveTo(-13,0);cx.lineTo(-22,0);cx.stroke();
       cx.restore();
     }}},
-  pierce:{icon:'⚡',label:'관통',color:'#a78bfa',duration:700,
+  pierce:{icon:'⚡',label:'관통',color:'#a78bfa',duration:700,desc:'화살이 적을 관통!',
     type:'projectile',
     projectile:{draw(a){
       cx.save();cx.translate(a.wx,a.wy);cx.rotate(a.ang);
@@ -57,7 +57,7 @@ const ITEM_DEFS={
       cx.strokeStyle='#f0abfc';cx.lineWidth=1.5;cx.beginPath();cx.moveTo(-4,-2);cx.lineTo(0,0);cx.lineTo(-4,2);cx.stroke();
       cx.restore();
     }}},
-  explosive:{icon:'💥',label:'폭발',color:'#f97316',duration:600,
+  explosive:{icon:'💥',label:'폭발',color:'#f97316',duration:600,desc:'착탄 시 주변 폭발!',
     type:'projectile',
     projectile:{draw(a){
       cx.save();cx.translate(a.wx,a.wy);cx.rotate(a.ang);
@@ -68,7 +68,7 @@ const ITEM_DEFS={
       [[10,0],[8,5],[8,-5]].forEach(([ox,oy])=>{cx.beginPath();cx.moveTo(7,oy*.4);cx.lineTo(ox,oy);cx.stroke();});
       cx.restore();
     }}},
-  rapid:{icon:'🌀',label:'연사',color:'#34d399',duration:700,
+  rapid:{icon:'🌀',label:'연사',color:'#34d399',duration:700,desc:'공격속도 2배!',
     type:'projectile',
     projectile:{draw(a){
       cx.save();cx.translate(a.wx,a.wy);cx.rotate(a.ang);
@@ -81,25 +81,21 @@ const ITEM_DEFS={
     }}},
   // ── 신규: 캐릭터 버프 아이템 (투사체 변환 없음) ──
   speed:{
-    icon:'💨',label:'이동 증가',color:'#67e8f9',duration:720,
+    icon:'💨',label:'이동 증가',color:'#67e8f9',duration:720,desc:'이동속도 +80%!',
     type:'buff',
-    // 이속 +80% (update에서 hasItem 체크)
   },
   shield:{
-    icon:'🛡',label:'보호막',color:'#e2e8f0',duration:600,
+    icon:'🛡',label:'보호막',color:'#e2e8f0',duration:600,desc:'피격 3회 방어!',
     type:'buff',
-    // 피격 무효화 (shieldHp 3)
     shieldHp:3,
   },
   atkspeed:{
-    icon:'⚔️',label:'공속 증가',color:'#fb7185',duration:660,
+    icon:'⚔️',label:'공속 증가',color:'#fb7185',duration:660,desc:'공격속도 2배!',
     type:'buff',
-    // 공격속도 2배 (getShootRate에서 체크)
   },
   laser:{
-    icon:'🔴',label:'레이저',color:'#ef4444',duration:90,
+    icon:'🔴',label:'레이저',color:'#ef4444',duration:90,desc:'전방위 즉사 레이저!',
     type:'buff',
-    // 1.5초간 전방위 레이저로 모든 몬스터 1방 사살
   },
 };
 const ITEM_KEYS=Object.keys(ITEM_DEFS);

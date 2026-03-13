@@ -28,8 +28,8 @@ function spawnMonster(g){
   g.spawnCount=(g.spawnCount||0)+1;
   const type=useSpitter?'spitter':pickMonsterType(el);
   const def=MONSTER_DEF[type];
-  const lvSpdBonus=(g.lv-1)*0.15;
-  const sM=Math.min(1.2+el*.006+lvSpdBonus, 5.0);  // 속도 최대 5배 (시간·레벨 비례)
+  const lvSpdBonus=(g.lv-1)*0.08;
+  const sM=Math.min(1.1+el*.003+lvSpdBonus, 3.5);  // 속도 최대 3.5배 (시간·레벨 비례)
   const hp=useSpitter?3:Math.min(Math.ceil(def.hp*(1+el*.002)),2);
   // 행동 패턴: 초반 direct 위주, 시간이 갈수록 flank/predict 섞임
   const r2=Math.random();
@@ -70,7 +70,7 @@ function spawnBoss(g,wx,wy){
 }
 
 function spawnWorldItem(g){
-  const ang=Math.random()*Math.PI*2,dist=200+Math.random()*400;
+  const ang=Math.random()*Math.PI*2,dist=80+Math.random()*140;
   const wx=g.wx+Math.cos(ang)*dist;
   const wy=g.wy+Math.sin(ang)*dist;
   const key=ITEM_KEYS[Math.random()*ITEM_KEYS.length|0];

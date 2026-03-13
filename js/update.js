@@ -106,7 +106,7 @@ function update(g){
     } else {
       fireArrow(g,g.pface);
     }
-    if(hasItem(g,'multi')){fireArrow(g,g.pface-.38);fireArrow(g,g.pface+.38);}
+    if(hasItem(g,'multi')){fireArrow(g,g.pface-.15);fireArrow(g,g.pface+.15);fireArrow(g,g.pface-.32);fireArrow(g,g.pface+.32);}
     playFireSound();
     g.shootCd=getShootRate(g);
     g.shootAnim=10;
@@ -167,12 +167,12 @@ function update(g){
 
   // 스폰 압박 = 기본 난이도 + 레벨 보너스 + 아이템 보너스
   // 레벨 1마다 +0.4, 아이템 1개당 +0.8
-  const lvBonus=(g.lv-1)*1.5;
-  const itemBonus=g.activeItems.length*0.8;
-  const spawnPressure=g.difficulty+lvBonus+itemBonus; // 캡 제거 — 레벨/시간에 비례해 무한 증가
+  const lvBonus=(g.lv-1)*0.6;
+  const itemBonus=g.activeItems.length*0.5;
+  const spawnPressure=Math.min(g.difficulty+lvBonus+itemBonus, 25);
   g.spawnTimer++;
-  const spawnIntv=Math.max(4,Math.floor(70/spawnPressure));
-  const monsterCap=50; // 최대 50마리 고정
+  const spawnIntv=Math.max(7,Math.floor(70/spawnPressure));
+  const monsterCap=35; // 최대 35마리
   if(g.spawnTimer>=spawnIntv){g.spawnTimer=0;if(g.monsters.length<monsterCap)spawnMonster(g);}
 
   // spawn world items
@@ -361,7 +361,7 @@ function killMonster(g,m){
   g.popups.push({wx:m.wx,wy:m.wy-m.r,txt:'+'+pts,life:1,col:'#fde68a'});
   // 레벨 비례 즉시 재생성: 레벨 5 이상부터 확률 증가
   const respawnChance=Math.min(0.2+(g.lv-1)*0.1,0.95);
-  if(Math.random()<respawnChance&&g.monsters.length<50)spawnMonster(g);
+  if(Math.random()<respawnChance&&g.monsters.length<35)spawnMonster(g);
 }
 
 function gainXp(g,amt){
@@ -397,6 +397,7 @@ function pickupItem(g,key,wx,wy){
   // 보호막 장착 시 내구도 초기화
   if(key==='shield') g.shieldHp=def.shieldHp;
   playItemSound();
+  showBanner(def.icon+' '+def.label+' — '+(def.desc||''));
   burst(g,wx,wy,def.color,16,true);
   g.popups.push({wx,wy:wy-30,txt:def.label+'!',life:1,col:def.color,big:true});
   const pf=document.getElementById('pf');
