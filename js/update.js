@@ -137,7 +137,7 @@ function update(g){
   // ── 무한 스폰: 경과 시간 + 레벨 + 아이템 수에 따라 빨라짐 ──
   if(g.frame%60===0){
     g.elapsed++;
-    g.difficulty=3+g.elapsed*.018;
+    g.difficulty=1.5+g.elapsed*.010;
     const mm=String(Math.floor(g.elapsed/60)).padStart(2,'0');
     const ss=String(g.elapsed%60).padStart(2,'0');
     document.getElementById('hudWv').textContent=mm+':'+ss;
@@ -171,7 +171,7 @@ function update(g){
   const itemBonus=g.activeItems.length*0.5;
   const spawnPressure=Math.min(g.difficulty+lvBonus+itemBonus, 25);
   g.spawnTimer++;
-  const spawnIntv=Math.max(7,Math.floor(70/spawnPressure));
+  const spawnIntv=Math.max(14,Math.floor(90/spawnPressure));
   const monsterCap=35; // 최대 35마리
   if(g.spawnTimer>=spawnIntv){g.spawnTimer=0;if(g.monsters.length<monsterCap)spawnMonster(g);}
 
