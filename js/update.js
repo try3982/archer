@@ -347,7 +347,7 @@ function update(g){
 }
 
 function fireArrow(g,ang){
-  const spd=12.5+(g.lv-1)*1.2;  // 레벨당 화살 속도 +1.2
+  const spd=10.0+(g.lv-1)*1.0;  // 레벨당 화살 속도 +1.0 (20% 감소)
   // buff 아이템(speed/shield/atkspeed)은 화살에 영향 없음 — projectile 타입만 사용
   const firstItem=g.activeItems.length?g.activeItems[0]:null;
   const key=(firstItem&&ITEM_DEFS[firstItem.key].type==='projectile')?firstItem.key:null;
