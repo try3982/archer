@@ -92,7 +92,7 @@ function playItemSound(){
 
 // ── 레이저 효과음 ──
 const laserSnd=new Audio('laser.m4a');
-laserSnd.volume=0.5;
+laserSnd.volume=0.25;
 function playLaserSound(){
   if(isMuted)return;
   laserSnd.currentTime=0;
