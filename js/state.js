@@ -67,7 +67,7 @@ function mkState(){
     difficulty:3,      // 시작부터 웨이브3 수준
     camX:WORLD_W/2-W/2,camY:WORLD_H/2-H/2,
     wx:WORLD_W/2,wy:WORLD_H/2,pface:0,
-    php:100,maxHp:100,piframe:0,
+    php:5,maxHp:5,piframe:0,
     lv:1,xp:0,xpNext:80,
     shootCd:0,shootRate:20,
     lvAtk:1,lvSpd:1,  // 레벨 기반 공격력/이속 배율

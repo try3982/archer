@@ -246,7 +246,7 @@ function update(g){
           wx:m.wx+Math.cos(ang)*m.r,wy:m.wy+Math.sin(ang)*m.r,
           vx:Math.cos(ang)*3.8,vy:Math.sin(ang)*3.8,
           ang,life:120,dead:false,
-          dmg:Math.ceil(8*Math.min(g.difficulty,5)),
+          dmg:1,
         });
         m.mShootCd=m.mShootInterval;
         burst(g,m.wx,m.wy,'#84cc16',4);
@@ -289,8 +289,7 @@ function update(g){
         m.atkTimer--;
         // 히트 판정
         if(md<CFG_PR+m.r*.8&&g.piframe===0){
-          const dmgTbl={ghoul:5,wraith:4,vampire:8,crawler:6,revenant:12,golem:18,lich:15,spitter:10};
-          const dmg=Math.ceil((dmgTbl[m.type]||6)*Math.min(g.difficulty,5));
+          const dmg=1;
           if(g.shieldHp>0){
             g.shieldHp--;g.piframe=40;
             burst(g,g.wx,g.wy,'#e2e8f0',18);
@@ -379,7 +378,7 @@ function gainXp(g,amt){
     // 레벨업 시 기존 몬스터 속도 증가 (+14%)
     for(const m of g.monsters){m.spd*=1.14;}
     // 레벨업 시 체력 회복
-    g.php=Math.min(g.maxHp,g.php+20);
+    g.php=Math.min(g.maxHp,g.php+1);
     updateHpHud(g);
     showLvUp(g.lv);
   }
