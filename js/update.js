@@ -389,11 +389,7 @@ function gainXp(g,amt){
 }
 
 let lvT=null;
-function showLvUp(lv){
-  const f=document.getElementById('luf'),t=document.getElementById('lut');
-  t.textContent='LEVEL '+lv+'!';f.style.background='rgba(168,85,247,.16)';t.style.opacity='1';
-  clearTimeout(lvT);lvT=setTimeout(()=>{f.style.background='';t.style.opacity='0';},900);
-}
+function showLvUp(lv){}
 
 function pickupItem(g,key,wx,wy){
   const def=ITEM_DEFS[key];
