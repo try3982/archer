@@ -211,7 +211,7 @@ function update(g){
             if((m2.wx-a.wx)**2+(m2.wy-a.wy)**2<80**2){const exDmg=Math.ceil(2*(g.lvAtk||1));m2.hp-=exDmg;if(m2.hp<=0)killMonster(g,m2);}
           }
         }
-        const arrowDmg=Math.ceil(1*(g.lvAtk||1));
+        const arrowDmg=g.elapsed>=180?999:Math.ceil(1*(g.lvAtk||1));
         m.hp-=arrowDmg;m.hitFlash=10;
         if(m.hp<=0)killMonster(g,m);
         if(a.pierce&&a.hits>=3)a.dead=true;
