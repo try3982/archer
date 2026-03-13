@@ -74,6 +74,9 @@ function spawnWorldItem(g){
   const ang=Math.random()*Math.PI*2,dist=80+Math.random()*140;
   const wx=g.wx+Math.cos(ang)*dist;
   const wy=g.wy+Math.sin(ang)*dist;
-  const key=ITEM_KEYS[Math.random()*ITEM_KEYS.length|0];
+  // 주변 600px 내 몬스터 수에 비례해 레이저 확률 증가
+  const nearby=g.monsters.filter(m=>!m.dead&&(m.wx-g.wx)**2+(m.wy-g.wy)**2<600*600).length;
+  const laserChance=Math.min(0.05+nearby*0.025, 0.6); // 최대 60%
+  const key=Math.random()<laserChance?'laser':ITEM_KEYS[Math.random()*ITEM_KEYS.length|0];
   g.worldItems.push({wx,wy,key,r:22,bob:Math.random()*Math.PI*2,picked:false,age:0});
 }
