@@ -90,6 +90,15 @@ function playItemSound(){
   setTimeout(()=>itemSnd.pause(),1000);
 }
 
+// ── 레이저 효과음 ──
+const laserSnd=new Audio('laser.m4a');
+laserSnd.volume=0.5;
+function playLaserSound(){
+  if(isMuted)return;
+  laserSnd.currentTime=0;
+  laserSnd.play().catch(()=>{});
+}
+
 // ── 뮤트 버튼 ──
 let isMuted=false;
 const btnMute=document.getElementById('btnMute');

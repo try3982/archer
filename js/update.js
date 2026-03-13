@@ -398,7 +398,7 @@ function pickupItem(g,key,wx,wy){
   if(g.activeItems.length>3)g.activeItems=g.activeItems.slice(0,3);
   // 보호막 장착 시 내구도 초기화
   if(key==='shield') g.shieldHp=def.shieldHp;
-  playItemSound();
+  if(key==='laser')playLaserSound();else playItemSound();
   burst(g,wx,wy,def.color,16,true);
   g.popups.push({wx:g.wx,wy:g.wy-CFG_PR-30,txt:def.icon+' '+def.label+(def.desc?' · '+def.desc:''),life:1.4,col:def.color,item:true});
   const pf=document.getElementById('pf');
