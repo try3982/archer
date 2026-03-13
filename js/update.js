@@ -115,7 +115,7 @@ function update(g){
 
   // 레이저: 회전하는 일직선 빔에 닿는 몬스터 즉사
   if(hasItem(g,'laser')){
-    const ang=g.frame*.07;
+    const ang=g.frame*.14;
     const rx=Math.cos(ang), ry=Math.sin(ang);
     const range2=600*600;
     for(const m of g.monsters){

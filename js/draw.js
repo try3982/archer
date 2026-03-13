@@ -362,7 +362,7 @@ function drawPlayer(g){
   // 레이저 이펙트 — 일직선 2빔이 한 바퀴 회전
   if(hasItem(g,'laser')){
     cx.save();cx.translate(sx,sy);
-    const ang=g.frame*.07;
+    const ang=g.frame*.14;
     const range=600;
     const ex=Math.cos(ang)*range, ey=Math.sin(ang)*range;
     // 외곽 글로우
