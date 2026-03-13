@@ -31,13 +31,12 @@ function spawnMonster(g){
   const lvSpdBonus=(g.lv-1)*0.08;
   const sM=Math.min(1.2+el*.003+lvSpdBonus, 3.0);  // 속도 최대 3배 (레벨 비례)
   const hp=useSpitter?3:Math.min(Math.ceil(def.hp*(1+el*.002)),2);
-  const behaviors=['direct','direct','flank','predict'];
   const m={
     wx,wy,type,boss:false,
     r:def.r,hp,maxHp:hp,
     spd:def.spd*sM,slow:0,
     anim:Math.random()*100,wob:Math.random()*Math.PI*2,dead:false,
-    behavior:behaviors[Math.floor(Math.random()*behaviors.length)],
+    behavior:'direct',
     flankSign:Math.random()<.5?1:-1,
     atkPhase:'chase', atkTimer:0, atkTargetX:0, atkTargetY:0,
   };
