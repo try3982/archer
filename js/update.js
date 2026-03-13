@@ -172,7 +172,7 @@ function update(g){
   const spawnPressure=g.difficulty+lvBonus+itemBonus; // 캡 제거 — 레벨/시간에 비례해 무한 증가
   g.spawnTimer++;
   const spawnIntv=Math.max(4,Math.floor(70/spawnPressure));
-  const monsterCap=Math.min(60+g.lv*18,400); // 레벨당 +18마리, 최대 400
+  const monsterCap=80; // 최대 80마리 고정
   if(g.spawnTimer>=spawnIntv){g.spawnTimer=0;if(g.monsters.length<monsterCap)spawnMonster(g);}
 
   // spawn world items
@@ -361,8 +361,7 @@ function killMonster(g,m){
   g.popups.push({wx:m.wx,wy:m.wy-m.r,txt:'+'+pts,life:1,col:'#fde68a'});
   // 레벨 비례 즉시 재생성: 레벨 5 이상부터 확률 증가
   const respawnChance=Math.min(0.2+(g.lv-1)*0.1,0.95);
-  const monsterCapK=Math.min(60+g.lv*18,400);
-  if(Math.random()<respawnChance&&g.monsters.length<monsterCapK)spawnMonster(g);
+  if(Math.random()<respawnChance&&g.monsters.length<80)spawnMonster(g);
 }
 
 function gainXp(g,amt){
