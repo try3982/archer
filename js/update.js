@@ -172,7 +172,7 @@ function update(g){
   const spawnPressure=g.difficulty+lvBonus+itemBonus; // 캡 제거 — 레벨/시간에 비례해 무한 증가
   g.spawnTimer++;
   const spawnIntv=Math.max(4,Math.floor(70/spawnPressure));
-  const monsterCap=80; // 최대 80마리 고정
+  const monsterCap=50; // 최대 50마리 고정
   if(g.spawnTimer>=spawnIntv){g.spawnTimer=0;if(g.monsters.length<monsterCap)spawnMonster(g);}
 
   // spawn world items
@@ -250,7 +250,7 @@ function update(g){
       const atkRange=CFG_PR+m.r+20;
       if(m.atkPhase==='chase'){
         // 접근
-        let tx=g.wx,ty=g.wy;
+        let tx=g.wx+(m.spreadX||0),ty=g.wy+(m.spreadY||0);
         if(m.behavior==='predict'){
           const predDist=Math.min(md,m.spd*30);
           tx=g.wx+Math.cos(g.moveDir||0)*predDist;
@@ -361,7 +361,7 @@ function killMonster(g,m){
   g.popups.push({wx:m.wx,wy:m.wy-m.r,txt:'+'+pts,life:1,col:'#fde68a'});
   // 레벨 비례 즉시 재생성: 레벨 5 이상부터 확률 증가
   const respawnChance=Math.min(0.2+(g.lv-1)*0.1,0.95);
-  if(Math.random()<respawnChance&&g.monsters.length<80)spawnMonster(g);
+  if(Math.random()<respawnChance&&g.monsters.length<50)spawnMonster(g);
 }
 
 function gainXp(g,amt){

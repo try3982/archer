@@ -31,13 +31,23 @@ function spawnMonster(g){
   const lvSpdBonus=(g.lv-1)*0.15;
   const sM=Math.min(1.2+el*.006+lvSpdBonus, 5.0);  // 속도 최대 5배 (시간·레벨 비례)
   const hp=useSpitter?3:Math.min(Math.ceil(def.hp*(1+el*.002)),2);
+  // 행동 패턴: 초반 direct 위주, 시간이 갈수록 flank/predict 섞임
+  const r2=Math.random();
+  const flankChance=Math.min(0.1+el*.001, 0.3);
+  const predictChance=Math.min(0.05+el*.0005, 0.2);
+  const behavior=r2<predictChance?'predict':r2<predictChance+flankChance?'flank':'direct';
+  // direct 몬스터는 플레이어 중심에서 살짝 벗어난 위치를 목표로 (겹침 방지)
+  const spreadAng=Math.random()*Math.PI*2;
+  const spreadDist=Math.random()*28;
   const m={
     wx,wy,type,boss:false,
     r:def.r,hp,maxHp:hp,
     spd:def.spd*sM,slow:0,
     anim:Math.random()*100,wob:Math.random()*Math.PI*2,dead:false,
-    behavior:'direct',
+    behavior,
     flankSign:Math.random()<.5?1:-1,
+    spreadX:Math.cos(spreadAng)*spreadDist, // 목표 오프셋
+    spreadY:Math.sin(spreadAng)*spreadDist,
     atkPhase:'chase', atkTimer:0, atkTargetX:0, atkTargetY:0,
   };
   // 원거리 몬스터 전용 상태
