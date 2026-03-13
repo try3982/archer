@@ -187,7 +187,8 @@ function drawAll(g){
   for(const p of g.popups){
     const sx=p.wx-g.camX,sy=p.wy-g.camY;
     cx.globalAlpha=p.life;
-    if(p.big){cx.font='bold 20px "Fredoka One",cursive';cx.fillStyle=p.col||'#fde68a';cx.shadowColor=p.col||'#f59e0b';cx.shadowBlur=14;}
+    if(p.item){cx.font='bold 12px "Fredoka One",cursive';cx.fillStyle=p.col||'#fde68a';cx.shadowBlur=0;}
+    else if(p.big){cx.font='bold 20px "Fredoka One",cursive';cx.fillStyle=p.col||'#fde68a';cx.shadowColor=p.col||'#f59e0b';cx.shadowBlur=14;}
     else{cx.font='bold 15px "Fredoka One",cursive';cx.fillStyle='#fde68a';cx.shadowColor='#f59e0b';cx.shadowBlur=8;}
     cx.fillText(p.txt,sx,sy);
   }

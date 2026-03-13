@@ -397,9 +397,8 @@ function pickupItem(g,key,wx,wy){
   // 보호막 장착 시 내구도 초기화
   if(key==='shield') g.shieldHp=def.shieldHp;
   playItemSound();
-  showBanner(def.icon+' '+def.label+' — '+(def.desc||''));
   burst(g,wx,wy,def.color,16,true);
-  g.popups.push({wx,wy:wy-30,txt:def.label+'!',life:1,col:def.color,big:true});
+  g.popups.push({wx:g.wx,wy:g.wy-CFG_PR-30,txt:def.icon+' '+def.label+(def.desc?' · '+def.desc:''),life:1.4,col:def.color,item:true});
   const pf=document.getElementById('pf');
   pf.style.background=def.color+'33';pf.style.opacity='1';
   setTimeout(()=>pf.style.opacity='0',220);
