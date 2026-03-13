@@ -359,35 +359,24 @@ function drawPlayer(g){
     }
     cx.globalAlpha=1;cx.restore();
   }
-  // 레이저 이펙트 — 회전하는 전방위 빨간 빔
+  // 레이저 이펙트 — 일직선 2빔이 한 바퀴 회전
   if(hasItem(g,'laser')){
     cx.save();cx.translate(sx,sy);
-    const rays=16, range=600;
-    const rot1=g.frame*.07;   // 정방향 빠른 회전
-    const rot2=-g.frame*.045; // 역방향 느린 회전
-    // 외곽 글로우 레이어
-    cx.shadowColor='#ef4444';cx.shadowBlur=28;
-    cx.globalAlpha=0.25;
-    for(let i=0;i<rays;i++){
-      const ang=i*(Math.PI*2/rays)+rot1;
-      cx.strokeStyle='#ff4444';cx.lineWidth=6;cx.lineCap='round';
-      cx.beginPath();cx.moveTo(0,0);cx.lineTo(Math.cos(ang)*range,Math.sin(ang)*range);cx.stroke();
-    }
-    // 역방향 보조 레이어
-    cx.globalAlpha=0.18;
-    for(let i=0;i<rays;i++){
-      const ang=i*(Math.PI*2/rays)+rot2+Math.PI/rays;
-      cx.strokeStyle='#ff8888';cx.lineWidth=4;
-      cx.beginPath();cx.moveTo(0,0);cx.lineTo(Math.cos(ang)*range,Math.sin(ang)*range);cx.stroke();
-    }
-    // 선명한 중심 레이어
-    cx.globalAlpha=1;cx.shadowBlur=12;
-    for(let i=0;i<rays;i++){
-      const ang=i*(Math.PI*2/rays)+rot1;
-      const alpha=0.7+Math.sin(g.frame*.18+i)*.3;
-      cx.strokeStyle=`rgba(255,80,80,${alpha})`;cx.lineWidth=2;cx.lineCap='round';
-      cx.beginPath();cx.moveTo(0,0);cx.lineTo(Math.cos(ang)*range,Math.sin(ang)*range);cx.stroke();
-    }
+    const ang=g.frame*.07;
+    const range=600;
+    const ex=Math.cos(ang)*range, ey=Math.sin(ang)*range;
+    // 외곽 글로우
+    cx.shadowColor='#ef4444';cx.shadowBlur=30;
+    cx.strokeStyle='rgba(255,68,68,0.3)';cx.lineWidth=12;cx.lineCap='round';
+    cx.beginPath();cx.moveTo(-ex,-ey);cx.lineTo(ex,ey);cx.stroke();
+    // 중간 빔
+    cx.shadowBlur=14;
+    cx.strokeStyle='rgba(255,120,120,0.7)';cx.lineWidth=5;
+    cx.beginPath();cx.moveTo(-ex,-ey);cx.lineTo(ex,ey);cx.stroke();
+    // 선명한 코어
+    cx.shadowBlur=6;
+    cx.strokeStyle='#ffffff';cx.lineWidth=1.5;
+    cx.beginPath();cx.moveTo(-ex,-ey);cx.lineTo(ex,ey);cx.stroke();
     cx.shadowBlur=0;cx.globalAlpha=1;cx.restore();
   }
   // 대시 이펙트 — 황금 속도선 + 잔상

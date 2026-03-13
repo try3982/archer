@@ -113,16 +113,17 @@ function update(g){
   }
   if(g.shootAnim>0)g.shootAnim--;
 
-  // 레이저: 매 프레임 16방향 레이저로 닿는 몬스터 즉사 (cos/sin 사전계산 배열 사용)
+  // 레이저: 회전하는 일직선 빔에 닿는 몬스터 즉사
   if(hasItem(g,'laser')){
+    const ang=g.frame*.07;
+    const rx=Math.cos(ang), ry=Math.sin(ang);
     const range2=600*600;
     for(const m of g.monsters){
       if(m.dead)continue;
       const mdx=m.wx-g.wx, mdy=m.wy-g.wy;
       if(mdx*mdx+mdy*mdy>range2)continue;
-      for(let i=0;i<LASER_RAYS;i++){
-        if(Math.abs(LASER_COS[i]*mdy-LASER_SIN[i]*mdx)<m.r){killMonster(g,m);burst(g,m.wx,m.wy,'#ef4444',6);break;}
-      }
+      // 직선(양방향)까지의 수직거리
+      if(Math.abs(rx*mdy-ry*mdx)<m.r){killMonster(g,m);burst(g,m.wx,m.wy,'#ef4444',6);}
     }
   }
 
