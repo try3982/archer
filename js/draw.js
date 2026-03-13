@@ -706,11 +706,10 @@ function drawMonster(g,m){
       cx.quadraticCurveTo(-r*.2,wy2-r*.1+Math.sin(anim*.08+i)*(r*.06),r*.7,wy2);cx.stroke();
     }
     // 눈 (3개)
-    cx.fillStyle=sl?'#93c5fd':'#e879f9';cx.shadowColor=sl?'#60a5fa':'#e879f9';cx.shadowBlur=10;
+    cx.fillStyle=sl?'#93c5fd':'#e879f9';
     [[-r*.3,-r*.4],[0,-r*.55],[r*.3,-r*.4]].forEach(([ex,ey])=>{
       cx.beginPath();cx.arc(ex,ey,r*.12,0,Math.PI*2);cx.fill();
     });
-    cx.shadowBlur=0;
     // 손 (작은 클로)
     cx.strokeStyle=sl?'rgba(100,100,255,.6)':'rgba(180,100,255,.6)';cx.lineWidth=2;cx.lineCap='round';
     [[-r*.8,r*.1],[ r*.8,r*.1]].forEach(([hx,hy])=>{
@@ -736,10 +735,9 @@ function drawMonster(g,m){
     cx.beginPath();cx.moveTo(-r*.38,-r*.82);cx.lineTo(-r*.55,-r*1.15);cx.lineTo(-r*.22,-r*.9);cx.closePath();cx.fill();
     cx.beginPath();cx.moveTo(r*.38,-r*.82);cx.lineTo(r*.55,-r*1.15);cx.lineTo(r*.22,-r*.9);cx.closePath();cx.fill();
     // 눈
-    cx.fillStyle=sl?'#93c5fd':'#dc2626';cx.shadowColor=sl?'#60a5fa':'#dc2626';cx.shadowBlur=8;
+    cx.fillStyle=sl?'#93c5fd':'#dc2626';
     cx.beginPath();cx.ellipse(-r*.18,-r*.78,r*.1,r*.07,0,0,Math.PI*2);cx.fill();
     cx.beginPath();cx.ellipse(r*.18,-r*.78,r*.1,r*.07,0,0,Math.PI*2);cx.fill();
-    cx.shadowBlur=0;
     // 송곳니
     cx.fillStyle='#fff';
     cx.beginPath();cx.moveTo(-r*.08,-r*.59);cx.lineTo(-r*.04,-r*.48);cx.lineTo(0,-r*.59);cx.fill();
@@ -771,12 +769,11 @@ function drawMonster(g,m){
     // 머리
     cx.beginPath();cx.arc(r*.5,0,r*.35,0,Math.PI*2);cx.fillStyle=sl?'#374151':'#1c0f05';cx.fill();
     // 눈 (6개)
-    cx.fillStyle=sl?'#93c5fd':'#ef4444';cx.shadowColor=sl?'#60a5fa':'#ef4444';cx.shadowBlur=6;
+    cx.fillStyle=sl?'#93c5fd':'#ef4444';
     [[r*.38,-r*.12],[r*.55,-r*.08],[r*.38,r*.08]].forEach(([ex,ey],i)=>{
       cx.beginPath();cx.arc(ex,ey,r*.07,0,Math.PI*2);cx.fill();
       cx.beginPath();cx.arc(ex,ey+r*.18,r*.06,0,Math.PI*2);cx.fill();
     });
-    cx.shadowBlur=0;
     // 다리 8개
     cx.strokeStyle=sl?'#6b7280':'#3d2008';cx.lineWidth=2;cx.lineCap='round';
     for(let i=0;i<4;i++){
@@ -812,9 +809,8 @@ function drawMonster(g,m){
     cx.beginPath();cx.arc(0,-r*.65,r*.42,0,Math.PI*2);cx.fillStyle=sl?'#1e40af':'#10102a';cx.fill();
     cx.strokeStyle=sl?'#3b82f6':'#2020508';cx.lineWidth=1.5;cx.stroke();
     // 투구 바이저 (눈 슬릿)
-    cx.fillStyle=sl?'#60a5fa':'#6366f1';cx.shadowColor=sl?'#60a5fa':'#6366f1';cx.shadowBlur=12;
+    cx.fillStyle=sl?'#60a5fa':'#6366f1';
     cx.fillRect(-r*.25,-r*.7,r*.18,r*.06);cx.fillRect(r*.07,-r*.7,r*.18,r*.06);
-    cx.shadowBlur=0;
     // 어깨 갑옷
     cx.fillStyle=sl?'#1e3a8a':'#12122e';
     cx.beginPath();cx.ellipse(-r*.75,-r*.15,r*.3,r*.22,-.3,0,Math.PI*2);cx.fill();
@@ -852,10 +848,9 @@ function drawMonster(g,m){
       cx.beginPath();cx.ellipse(mx,my,r*.15,r*.1,Math.random(),0,Math.PI*2);cx.fill();
     });
     // 눈 (바위 틈새의 빛)
-    cx.fillStyle=sl?'#93c5fd':'#f97316';cx.shadowColor=sl?'#60a5fa':'#f97316';cx.shadowBlur=15;
+    cx.fillStyle=sl?'#93c5fd':'#f97316';
     cx.beginPath();cx.ellipse(-r*.28,-r*.25,r*.15,r*.1,-.1,0,Math.PI*2);cx.fill();
     cx.beginPath();cx.ellipse(r*.28,-r*.25,r*.15,r*.1,.1,0,Math.PI*2);cx.fill();
-    cx.shadowBlur=0;
     // 입 균열
     cx.strokeStyle='rgba(0,0,0,.8)';cx.lineWidth=2;
     cx.beginPath();cx.moveTo(-r*.3,r*.15);cx.lineTo(-r*.1,r*.2);cx.lineTo(r*.1,r*.18);cx.lineTo(r*.3,r*.15);cx.stroke();
@@ -904,10 +899,9 @@ function drawMonster(g,m){
     cx.beginPath();cx.ellipse(-r*.17,-r*.65,r*.14,r*.18,-.1,0,Math.PI*2);cx.fill();
     cx.beginPath();cx.ellipse(r*.17,-r*.65,r*.14,r*.18,.1,0,Math.PI*2);cx.fill();
     // 눈 불꽃
-    cx.fillStyle=sl?'#93c5fd':'#a855f7';cx.shadowColor=sl?'#60a5fa':'#a855f7';cx.shadowBlur=14;
+    cx.fillStyle=sl?'#93c5fd':'#a855f7';
     cx.beginPath();cx.arc(-r*.17,-r*.65,r*.07,0,Math.PI*2);cx.fill();
     cx.beginPath();cx.arc(r*.17,-r*.65,r*.07,0,Math.PI*2);cx.fill();
-    cx.shadowBlur=0;
     // 코뼈
     cx.strokeStyle='#8a8070';cx.lineWidth=1;
     cx.beginPath();cx.moveTo(-r*.05,-r*.55);cx.lineTo(0,-r*.48);cx.lineTo(r*.05,-r*.55);cx.stroke();
@@ -942,9 +936,8 @@ function drawMonster(g,m){
     const staffSwing=walk*r*.1;
     cx.strokeStyle='#5b21b6';cx.lineWidth=3;cx.lineCap='round';
     cx.beginPath();cx.moveTo(r*.5,-r*.2+staffSwing);cx.lineTo(r*.7,r*.5+staffSwing);cx.stroke();
-    cx.fillStyle='#a855f7';cx.shadowColor='#a855f7';cx.shadowBlur=12;
+    cx.fillStyle='#a855f7';
     cx.beginPath();cx.arc(r*.48,-r*.24+staffSwing,r*.12,0,Math.PI*2);cx.fill();
-    cx.shadowBlur=0;
     // 마법 파티클 효과 (anim 기반)
     if(boss){
       for(let i=0;i<4;i++){
@@ -1007,9 +1000,9 @@ function drawMonster(g,m){
     if(m.mShootCd<20){
       const charge=1-(m.mShootCd/20);
       cx.globalAlpha=charge*.8;
-      cx.fillStyle='#4ade80';cx.shadowColor='#4ade80';cx.shadowBlur=10;
+      cx.fillStyle='#4ade80';
       cx.beginPath();cx.arc(0,r*.75,r*.25*charge+3,0,Math.PI*2);cx.fill();
-      cx.shadowBlur=0;cx.globalAlpha=1;
+      cx.globalAlpha=1;
     }
   }
 
