@@ -28,8 +28,9 @@ function spawnMonster(g){
   g.spawnCount=(g.spawnCount||0)+1;
   const type=useSpitter?'spitter':pickMonsterType(el);
   const def=MONSTER_DEF[type];
-  const lvSpdBonus=(g.lv-1)*0.08;
-  const sM=Math.min(1.1+el*.003+lvSpdBonus, 3.5);  // 속도 최대 3.5배 (시간·레벨 비례)
+  // 12렙 이후 속도 급증, 최종적으로 플레이어 속도(7.8)의 90% = 7.0 근접
+  const lvSpdBonus=g.lv<12?(g.lv-1)*0.08:0.88+(g.lv-12)*0.35;
+  const sM=Math.min(1.1+el*.003+lvSpdBonus, 7.0);  // 속도 최대 7배 (lv12+ 급증)
   const hp=useSpitter?3:Math.min(Math.ceil(def.hp*(1+el*.002)),2);
   // 행동 패턴: 초반 direct 위주, 시간이 갈수록 flank/predict 섞임
   const r2=Math.random();

@@ -167,12 +167,12 @@ function update(g){
 
   // 스폰 압박 = 기본 난이도 + 레벨 보너스 + 아이템 보너스
   // 레벨 1마다 +0.4, 아이템 1개당 +0.8
-  const lvBonus=(g.lv-1)*0.6;
+  const lvBonus=g.lv<12?(g.lv-1)*0.6:6.6+(g.lv-12)*4; // 12렙부터 급증
   const itemBonus=g.activeItems.length*0.5;
-  const spawnPressure=Math.min(g.difficulty+lvBonus+itemBonus, 25);
+  const spawnPressure=g.difficulty+lvBonus+itemBonus; // 캡 제거
   g.spawnTimer++;
-  const spawnIntv=Math.max(14,Math.floor(90/spawnPressure));
-  const monsterCap=35; // 최대 35마리
+  const spawnIntv=Math.max(g.lv>=12?3:14, Math.floor(90/spawnPressure));
+  const monsterCap=g.lv>=12?60:35; // 12렙+ 최대 60마리
   if(g.spawnTimer>=spawnIntv){g.spawnTimer=0;if(g.monsters.length<monsterCap)spawnMonster(g);}
 
   // spawn world items
@@ -375,8 +375,9 @@ function gainXp(g,amt){
     g.xp-=g.xpNext;g.lv++;
     g.xpNext=Math.ceil(80*1.32**(g.lv-1));
     g.lvAtk=1+(g.lv-1)*0.25;               // 공격력: 레벨당 +25%
-    // 레벨업 시 기존 몬스터 속도 증가 (+14%)
-    for(const m of g.monsters){m.spd*=1.14;}
+    // 레벨업 시 기존 몬스터 속도 증가 (12렙 미만 +10%, 12렙+ +20%)
+    const spdMult=g.lv>=12?1.20:1.10;
+    for(const m of g.monsters){m.spd*=spdMult;}
     // 레벨업 시 체력 회복
     g.php=Math.min(g.maxHp,g.php+1);
     updateHpHud(g);
